@@ -8,7 +8,7 @@ int Canvas::getNewID()
 void Canvas::getImage(QImage* image)
 {
    // clearPixelSet();//输出前，先清除无效图元
-    image->fill(Qt::white);
+    image->fill(Qt::yellow);
     for (int i = 0; i < PixelSets.size(); i++) {
         PixelSets[i]->paint(image);
     }
@@ -43,4 +43,9 @@ void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
     PixelSet *p = new CtrlPoint(index, foldline);
     p->setID(id);
     PixelSets.push_back(p);
+}
+
+void Canvas::clear_all(){
+    PixelSets.clear();
+    id_counter = 0;
 }

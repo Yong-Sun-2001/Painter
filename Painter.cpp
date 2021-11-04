@@ -67,14 +67,14 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
-
     switch (state){
         case DRAW_CURVE:{
                 if (event->button() == Qt::LeftButton) {
+                    realCanvas=tempCanvas;
                     curve_points.push_back(Point(x, y));
                     bufCanvas = realCanvas;
                     buf= true;
-                    FoldLine* p = bufCanvas.drawFoldLine( curve_points);
+                    FoldLine* p = bufCanvas.drawFoldLine(curve_points);
                     for (size_t i = 0; i < curve_points.size(); i++) {
                         bufCanvas.drawCtrlPoint(i, p);
                     }
@@ -88,6 +88,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                         for (size_t i = 0; i < curve_points.size(); i++) {
                             realCanvas.drawCtrlPoint(i, p);
                         }
+                        tempCanvas=realCanvas;
                         algorithm=ALGORITHM::BEZIER;
                         realCanvas.drawCurve(algorithm, p);
                     }
@@ -96,7 +97,18 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     update();
                 }
         }
-
+        case DRAW_LINE: {
+                if (event->button() == Qt::LeftButton){
+                    curve_points.push_back(Point(x, y));
+                    FoldLine *p = realCanvas.drawFoldLine(curve_points);
+                    for (size_t i = 0; i < curve_points.size(); i++) {
+                        realCanvas.drawCtrlPoint(i, p);
+                    }
+                    algorithm=ALGORITHM::LINE;
+                    realCanvas.drawCurve(algorithm, p);
+                    update();
+                }
+        }
         case NOT_DRAWING:
             break;
     }
@@ -110,7 +122,9 @@ void Painter::mouseDoubleClickEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
-
+    if(event->button() == Qt::RightButton){//右键双击清空
+        clear_all();
+    }
     refreshStateLabel();
 }
 
@@ -128,3 +142,16 @@ void Painter::paintEvent(QPaintEvent *event)
     paint.drawImage(0, 0, *image);
     delete image;
 }
+
+void Painter::clear_all(){
+    realCanvas.clear_all();
+    bufCanvas.clear_all();
+    curve_points.clear();
+    curve_state = CURVE_NON;
+    setState(NOT_DRAWING);
+    update();
+}
+
+void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);curve_points.clear();tempCanvas=realCanvas;}
+void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);curve_points.clear();tempCanvas=realCanvas;}
+

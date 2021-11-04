@@ -23,6 +23,7 @@ private:
     Ui::MainWindow *ui;
     Canvas realCanvas;
     Canvas bufCanvas;
+    Canvas tempCanvas;
 
 //=====================================================================
 // 状态及数据
@@ -34,8 +35,8 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,NOT_DRAWING};
-    Draw_State state=DRAW_CURVE;
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING};
+    Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
 
     /*曲线*/
@@ -62,6 +63,7 @@ private:
     void mouseDoubleClickEvent(QMouseEvent *event);
     //重绘事件
     void paintEvent(QPaintEvent *event);
+    void clear_all();
 //=====================================================================
 
 //=====================================================================
@@ -71,6 +73,7 @@ private slots:
 
 
 //=====================================================================
-
+    void on_toolButton_clicked();
+    void on_toolButton_2_clicked();
 };
 #endif // PAINTER_H
