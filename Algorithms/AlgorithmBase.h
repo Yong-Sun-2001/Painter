@@ -1,0 +1,8 @@
+#ifndef ALGORITHMBASE_H
+#define ALGORITHMBASE_H
+
+enum ALGORITHM {
+    BEZIER
+};
+
+#endif // ALGORITHMBASE_H
