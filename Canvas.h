@@ -22,6 +22,7 @@ public:
     void drawCurve(ALGORITHM algo, FoldLine *fl);
     FoldLine* drawFoldLine(const vector<Point>& vertexes);
     void drawCtrlPoint(size_t index, FoldLine * fl);
+    void clear_all();
 };
 
 
