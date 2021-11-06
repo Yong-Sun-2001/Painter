@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <vector>
 
-void drawCurve_Line(const std::vector<Point>& vertexs, PixelSet& myset){
+void drawLine_DDA(const std::vector<Point>& vertexs, PixelSet& myset){
     size_t n = vertexs.size();
     for(unsigned int it=0;it<n-1;it+=1){
         myset.setColor(Qt::blue);

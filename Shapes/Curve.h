@@ -2,7 +2,7 @@
 #define CURVE_H
 #include <Shapes/FoldLine.h>
 #include <Algorithms/Bezier.h>
-#include <Algorithms/Line.h>
+#include <Algorithms/DDA.h>
 using namespace std;
 class Curve : public PixelSet
 {
