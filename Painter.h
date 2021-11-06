@@ -52,7 +52,9 @@ private:
 //=====================================================================
 // 鼠标行为+绘制行为
 
-    int mouse_x = 0, mouse_y = 0;//鼠标位置
+    int mouse_x = 0, mouse_y = 0;int u_id=0;//鼠标位置
+    int l_x=0,l_y=0;
+    bool on_curve=false;
     //鼠标按下
     void mousePressEvent(QMouseEvent *event);
     //鼠标移动
@@ -75,5 +77,6 @@ private slots:
 //=====================================================================
     void on_toolButton_clicked();
     void on_toolButton_2_clicked();
+    void on_toolButton_3_clicked();
 };
 #endif // PAINTER_H

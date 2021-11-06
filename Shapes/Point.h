@@ -3,6 +3,7 @@
 class Point{
 
 public:
+    int id=0;
     int x;
     int y;
     Point();

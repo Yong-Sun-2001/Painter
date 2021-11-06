@@ -29,7 +29,7 @@ Painter::~Painter()
 void Painter::refreshStateLabel()
 {
     //状态栏展示鼠标位置
-    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + ")";
+    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + "),id:"+QString::number(u_id);
     statusLabel->setText(str);
 }
 
@@ -46,6 +46,24 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
     mouse_x = x;
     mouse_y = y;
 
+    this->setCursor(Qt::ArrowCursor);
+    on_curve=false;
+    u_id=0;
+
+    if(state==NOT_DRAWING){
+        std::vector<PixelSet *> p=realCanvas.PixelSets;
+        for(int i=0;i<p.size();++i){
+            PixelSet q=*p[i];
+            std::vector<Point> m=q.points;
+            for(int j=0;j<m.size();++j){
+                if(abs(m[j].x-x)<=10&&abs(m[j].y-y)<=10){
+                    this->setCursor(Qt::SizeAllCursor);
+                    on_curve=true;
+                    u_id=q.getid();
+                }
+            }
+        }
+    }
     refreshStateLabel();
 }
 
@@ -56,7 +74,25 @@ void Painter::mousePressEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
-
+    /*
+    if(event->button() == Qt::LeftButton && on_curve==true){
+        std::vector<PixelSet *> p=realCanvas.PixelSets;
+        for(int i=0;i<p.size();++i){
+            PixelSet q=*p[i];
+            if(q.getid()==u_id){
+                std::vector<Point> m=q.points;
+                for(int j=0;j<m.size();++j){
+                    int dx=mouse_x-l_x;int dy=mouse_y-l_y;
+                    m[j].x+=dx;m[j].y+=dy;
+                }
+                //break;
+            }
+        }
+    }
+    l_x=x;
+    l_y=y;
+    update();
+    */
     refreshStateLabel();
 }
 
@@ -104,9 +140,11 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     for (size_t i = 0; i < curve_points.size(); i++) {
                         realCanvas.drawCtrlPoint(i, p);
                     }
-                    algorithm=ALGORITHM::LINE;
-                    realCanvas.drawCurve(algorithm, p);
-                    update();
+                    if(curve_points.size() > 1){
+                        algorithm=ALGORITHM::LINE;
+                        realCanvas.drawCurve(algorithm, p);
+                        update();
+                    }
                 }
         }
         case NOT_DRAWING:
@@ -154,4 +192,5 @@ void Painter::clear_all(){
 
 void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);curve_points.clear();tempCanvas=realCanvas;}
 void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);curve_points.clear();tempCanvas=realCanvas;}
+void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);curve_points.clear();tempCanvas=realCanvas;}
 
