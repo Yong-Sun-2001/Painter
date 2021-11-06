@@ -6,6 +6,6 @@
 #include <Algorithms/AlgorithmBase.h>
 
 
-void drawLine_DDA(const std::vector<Point>& vertexs, PixelSet& myset);
+void drawLine_DDA(int x1,int x2,int y1,int y2, PixelSet& myset);
 
 #endif // DDA_H

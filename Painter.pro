@@ -13,6 +13,7 @@ SOURCES += \
     Shapes/CtrlPoint.cpp \
     Shapes/Curve.cpp \
     Shapes/FoldLine.cpp \
+    Shapes/Line.cpp \
     Shapes/Point.cpp \
     main.cpp \
     Painter.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     Shapes/CtrlPoint.h \
     Shapes/Curve.h \
     Shapes/FoldLine.h \
+    Shapes/Line.h \
     Shapes/PixelSet.h \
     Algorithms/Bezier.h \
     Shapes/Point.h

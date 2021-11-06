@@ -135,16 +135,17 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
         }
         case DRAW_LINE: {
                 if (event->button() == Qt::LeftButton){
-                    curve_points.push_back(Point(x, y));
-                    FoldLine *p = realCanvas.drawFoldLine(curve_points);
-                    for (size_t i = 0; i < curve_points.size(); i++) {
-                        realCanvas.drawCtrlPoint(i, p);
+                    line_points.push_back(Point(x, y));
+                    Point *pt=NULL;
+                    *pt=Point(x, y);
+                    realCanvas.drawCtrlPoint(1,pt);
+
+                    if(line_points.size() == 2){
+                        algorithm=ALGORITHM::DDA;
+                        realCanvas.drawLine(algorithm, &line_points[0], &line_points[1]);
+                        line_points.clear();
                     }
-                    if(curve_points.size() > 1){
-                        algorithm=ALGORITHM::LINE;
-                        realCanvas.drawCurve(algorithm, p);
-                        update();
-                    }
+                    update();
                 }
         }
         case NOT_DRAWING:
@@ -191,6 +192,6 @@ void Painter::clear_all(){
 }
 
 void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);curve_points.clear();tempCanvas=realCanvas;}
-void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);curve_points.clear();tempCanvas=realCanvas;}
+void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);line_points.clear();tempCanvas=realCanvas;}
 void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);curve_points.clear();tempCanvas=realCanvas;}
 

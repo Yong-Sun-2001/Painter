@@ -44,6 +44,11 @@ private:
     enum CURVE_STATE { CURVE_NON, CURVE_BEGIN };
     CURVE_STATE curve_state = CURVE_NON;
 
+    /*直线*/
+    std::vector<Point> line_points;
+    enum LINE_STATE { LINE_NON, LINE_BEGIN };
+    LINE_STATE line_state = LINE_NON;
+
     /*算法*/
     ALGORITHM algorithm;
 

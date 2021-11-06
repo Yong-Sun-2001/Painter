@@ -24,6 +24,17 @@ void Canvas::drawCurve(ALGORITHM algo, FoldLine *fl)
     PixelSets.push_back(p);
 }
 
+void Canvas::drawLine(ALGORITHM algo,Point *st,Point *ed )
+{
+    size_t id=getNewID();
+    Point startp(st->x,st->y);
+    Point endp(ed->x,ed->y);
+    PixelSet *p = new Line(algo, startp, endp);  //用点构造曲线
+    p->refresh();
+    p->setID(id);
+    p->setColor(color);
+    PixelSets.push_back(p);
+}
 
 FoldLine* Canvas::drawFoldLine(const vector<Point>& vertexes)
 {
@@ -34,6 +45,14 @@ FoldLine* Canvas::drawFoldLine(const vector<Point>& vertexes)
     p->setID(id);
     //PixelSets.push_back(p);
     return res;
+}
+
+void Canvas::drawCtrlPoint(size_t index,Point *pt)
+{
+    int id= getNewID();
+    PixelSet *p = new CtrlPoint(index, pt);
+    p->setID(id);
+    PixelSets.push_back(p);
 }
 
 void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)

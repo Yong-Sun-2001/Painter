@@ -17,9 +17,6 @@ void Curve::refresh()
     if (algorithm == BEZIER) {
         drawCurve_Bezier(vertexes, *this);
     }
-    else if(algorithm == LINE){
-        drawCurve_Line(vertexes, *this);
-    }
 }
 
 void Curve::paint(QImage * image)

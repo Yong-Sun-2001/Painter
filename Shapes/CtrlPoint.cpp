@@ -1,5 +1,13 @@
 #include <Shapes/CtrlPoint.h>
 
+CtrlPoint::CtrlPoint(size_t iindex, Point *p,int iwidth, QColor icolor)
+{
+    index = iindex;
+    pt = p;
+    width = iwidth;
+    color = icolor;
+}
+
 CtrlPoint::CtrlPoint(size_t iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
 {
     index = iindex;
@@ -22,8 +30,15 @@ int CtrlPoint::getID(int x, int y)
 
 void CtrlPoint::paint(QImage * image)
 {
-    int x = foldline->vertexes[index].x;
-    int y = foldline->vertexes[index].y;
+    int x=0,y=0;
+    if(foldline){
+         x = foldline->vertexes[index].x;
+         y = foldline->vertexes[index].y;
+    }
+    if(pt){
+        x=pt->x;
+        y=pt->y;
+    }
     QPainter myPainter(image);
     QPen myPen(color);
     myPen.setWidth(width);

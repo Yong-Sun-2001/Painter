@@ -2,7 +2,7 @@
 #define ALGORITHMBASE_H
 
 enum ALGORITHM {
-    BEZIER,LINE
+    BEZIER,DDA
 };
 
 #endif // ALGORITHMBASE_H

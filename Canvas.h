@@ -7,6 +7,7 @@
 #include <Shapes/FoldLine.h>
 #include <Shapes/Curve.h>
 #include <Shapes/CtrlPoint.h>
+#include <Shapes/Line.h>
 
 class Canvas{
 
@@ -20,7 +21,9 @@ public:
     int getNewID();
     void getImage(QImage *image);
     void drawCurve(ALGORITHM algo, FoldLine *fl);
+    void drawLine(ALGORITHM algo,Point *st,Point *ed);
     FoldLine* drawFoldLine(const vector<Point>& vertexes);
+    void drawCtrlPoint(size_t index,Point *p);
     void drawCtrlPoint(size_t index, FoldLine * fl);
     void set_color(size_t pcolor);
     void clear_all();
