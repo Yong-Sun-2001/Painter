@@ -1,5 +1,4 @@
 #include <Canvas.h>
-
 int Canvas::getNewID()
 {
     return ++id_counter;
@@ -33,7 +32,7 @@ FoldLine* Canvas::drawFoldLine(const vector<Point>& vertexes)
     PixelSet *p = res;
     p->refresh();
     p->setID(id);
-    PixelSets.push_back(p);
+    //PixelSets.push_back(p);
     return res;
 }
 
@@ -44,6 +43,12 @@ void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
     p->setID(id);
     PixelSets.push_back(p);
 }
+
+void Canvas::set_color(size_t pcolor)
+{
+    color=pcolor;
+}
+
 
 void Canvas::clear_all(){
     PixelSets.clear();

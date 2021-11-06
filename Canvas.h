@@ -11,17 +11,18 @@
 class Canvas{
 
 protected:
-    size_t color;   //画笔颜色
-    std::vector<PixelSet *> PixelSets;   //画布上所有图形的集合
-    size_t id_counter = 0;   //图形编号
+    size_t color=0xFF0000;   //画笔颜色
 
 public:
+    size_t id_counter = 0;   //图形编号
+    std::vector<PixelSet *> PixelSets;   //画布上所有图形的集合
    // void getid();
     int getNewID();
     void getImage(QImage *image);
     void drawCurve(ALGORITHM algo, FoldLine *fl);
     FoldLine* drawFoldLine(const vector<Point>& vertexes);
     void drawCtrlPoint(size_t index, FoldLine * fl);
+    void set_color(size_t pcolor);
     void clear_all();
 };
 

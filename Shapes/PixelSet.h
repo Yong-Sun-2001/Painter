@@ -10,13 +10,13 @@ class PixelSet{
 
 protected:
     int id;
-    QColor color;
-    std::vector<Point> points;
+    QColor color=0xFF0000;
 
 public:
+    std::vector<Point> points;
     void setID(int pid);
     void setColor(int pcolor);
-    void getid();
+    int getid();
     void add(int x,int y);
     void translate();
     virtual void paint(QImage *image);

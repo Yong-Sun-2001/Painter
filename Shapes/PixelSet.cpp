@@ -25,6 +25,10 @@ void PixelSet::paint(QImage *image)
     }
 }
 
+int PixelSet::getid(){
+    return id;
+}
+
 void PixelSet::scale()
 {
 
@@ -37,7 +41,6 @@ void PixelSet::rotate()
 
 void PixelSet::refresh()
 {
-
 }
 
 
