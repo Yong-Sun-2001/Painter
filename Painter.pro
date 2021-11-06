@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     Algorithms/DDA.cpp \
+    Algorithms/Midpoint.cpp \
+    Shapes/Circle.cpp \
     Shapes/CtrlPoint.cpp \
     Shapes/Curve.cpp \
     Shapes/FoldLine.cpp \
@@ -24,8 +26,10 @@ SOURCES += \
 HEADERS += \
     Algorithms/AlgorithmBase.h \
     Algorithms/DDA.h \
+    Algorithms/Midpoint.h \
     Canvas.h \
     Painter.h \
+    Shapes/Circle.h \
     Shapes/CtrlPoint.h \
     Shapes/Curve.h \
     Shapes/FoldLine.h \

@@ -79,6 +79,14 @@ void Canvas::setColor(QColor pcolor)
     color=pcolor;
 }
 
+void Canvas::drawCircle(ALGORITHM algo,Point &center,int r)
+{
+    int id = getNewID();
+    PixelSet *p = new Circle(algo,center.x,center.y,r);
+    p->refresh();
+    p->setID(id);
+    PixelSets.push_back(p);
+}
 
 void Canvas::clear_all(){
     PixelSets.clear();

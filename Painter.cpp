@@ -138,6 +138,32 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 }
                 break;
         }
+    case DRAW_CIRCLE:{
+                if (event->button() == Qt::LeftButton) {
+                    if(circle_state == CIRCLE_NON){
+                        circle_center.x = x;
+                        circle_center.y = y;//圆心
+                        circle_state = CIRCLE_FINISH;
+                    }
+                    else if(circle_state == CIRCLE_FINISH)
+                    {
+                        float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
+                                              (y-circle_center.y)*(y-circle_center.y));
+                        circle_r = qRound(distense);
+                        algorithm=ALGORITHM::MIDPOINT;
+                        bufCanvas = realCanvas;
+                        buf= true;
+                        bufCanvas.drawCircle(algorithm,circle_center,circle_r);
+                        update();
+                        realCanvas = bufCanvas;
+                        buf =false;
+                        realCanvas.drawCircle(algorithm,circle_center,circle_r);
+                        update();
+                        circle_state = CIRCLE_NON;
+                    }
+                }
+        }
+        break;
         case NOT_DRAWING:
             break;
     }
@@ -184,4 +210,5 @@ void Painter::clear_all(){
 void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);}
 void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);}
 void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
+void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
 
