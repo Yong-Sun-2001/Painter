@@ -3,7 +3,7 @@
 #include <QDebug>
 
 #include <QPainter>
-
+//This is a pull request test
 Painter::Painter(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
