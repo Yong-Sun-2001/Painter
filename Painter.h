@@ -35,19 +35,21 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING};
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
 
     /*曲线*/
     std::vector<Point> curve_points;
-    enum CURVE_STATE { CURVE_NON, CURVE_BEGIN };
-    CURVE_STATE curve_state = CURVE_NON;
 
     /*直线*/
     std::vector<Point> line_points;
-    enum LINE_STATE { LINE_NON, LINE_BEGIN };
-    LINE_STATE line_state = LINE_NON;
+
+    /*圆*/
+    Point circle_center;
+    int circle_r;//半径
+    enum CIRCLE_STATE {CIRCLE_NON,CIRCLE_FINISH};
+    CIRCLE_STATE circle_state = CIRCLE_NON;
 
     /*算法*/
     ALGORITHM algorithm;
@@ -83,5 +85,6 @@ private slots:
     void on_toolButton_clicked();
     void on_toolButton_2_clicked();
     void on_toolButton_3_clicked();
+    void on_toolButton_4_clicked();
 };
 #endif // PAINTER_H

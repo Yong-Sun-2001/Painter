@@ -7,7 +7,7 @@ int Canvas::getNewID()
 void Canvas::getImage(QImage* image)
 {
    // clearPixelSet();//输出前，先清除无效图元
-    image->fill(Qt::yellow);
+    image->fill(Qt::white);
     for (int i = 0; i < PixelSets.size(); i++) {
         PixelSets[i]->paint(image);
     }
@@ -43,19 +43,12 @@ FoldLine* Canvas::drawFoldLine(const vector<Point>& vertexes)
     PixelSet *p = res;
     p->refresh();
     p->setID(id);
-    //PixelSets.push_back(p);
+    PixelSets.push_back(p);
     return res;
 }
 
-void Canvas::drawCtrlPoint(size_t index,Point *pt)
-{
-    int id= getNewID();
-    PixelSet *p = new CtrlPoint(index, pt);
-    p->setID(id);
-    PixelSets.push_back(p);
-}
 
-void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
+void Canvas::drawCtrlPoint(int index, FoldLine * foldline)
 {
     int id= getNewID();
     PixelSet *p = new CtrlPoint(index, foldline);
@@ -63,7 +56,27 @@ void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
     PixelSets.push_back(p);
 }
 
-void Canvas::set_color(size_t pcolor)
+void Canvas::drawPoint(Point pt)
+{
+    int id=getNewID();
+    PixelSet *p=new PixelSet;
+    p->setColor(QColor(0xB2, 0xDF, 0xEE));
+    p->add(pt.x,pt.y);
+    p->setID(id);
+    p->setWidth(10);
+    PixelSets.push_back(p);
+}
+
+void Canvas::drawCircle(ALGORITHM algo,Point &center,int r)
+{
+    int id = getNewID();
+    PixelSet *p = new Circle(algo,center.x,center.y,r);
+    p->refresh();
+    p->setID(id);
+    PixelSets.push_back(p);
+}
+
+void Canvas::setColor(QColor pcolor)
 {
     color=pcolor;
 }

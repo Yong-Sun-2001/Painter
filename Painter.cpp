@@ -29,7 +29,7 @@ Painter::~Painter()
 void Painter::refreshStateLabel()
 {
     //状态栏展示鼠标位置
-    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + "),id:"+QString::number(u_id);
+    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + ") id:" +QString::number(u_id);
     statusLabel->setText(str);
 }
 
@@ -50,20 +50,20 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
     on_curve=false;
     u_id=0;
 
-    if(state==NOT_DRAWING){
-        std::vector<PixelSet *> p=realCanvas.PixelSets;
-        for(int i=0;i<p.size();++i){
-            PixelSet q=*p[i];
-            std::vector<Point> m=q.points;
-            for(int j=0;j<m.size();++j){
-                if(abs(m[j].x-x)<=10&&abs(m[j].y-y)<=10){
-                    this->setCursor(Qt::SizeAllCursor);
-                    on_curve=true;
-                    u_id=q.getid();
-                }
-            }
-        }
-    }
+//    if(state==NOT_DRAWING){
+//        std::vector<PixelSet *> p=realCanvas.PixelSets;
+//        for(int i=0;i<p.size();++i){
+//            PixelSet q=*p[i];
+//            std::vector<Point> m=q.points;
+//            for(int j=0;j<m.size();++j){
+//                if(abs(m[j].x-x)<=10&&abs(m[j].y-y)<=10){
+//                    this->setCursor(Qt::SizeAllCursor);
+//                    on_curve=true;
+//                    u_id=q.getid();
+//                }
+//            }
+//        }
+//    }
     refreshStateLabel();
 }
 
@@ -106,7 +106,6 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     switch (state){
         case DRAW_CURVE:{
                 if (event->button() == Qt::LeftButton) {
-                    realCanvas=tempCanvas;
                     curve_points.push_back(Point(x, y));
                     bufCanvas = realCanvas;
                     buf= true;
@@ -120,34 +119,61 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     if (curve_points.size() > 2) { //点的个数小于3时，曲线没有意义
                         realCanvas=bufCanvas;
                         buf=false;
-                        FoldLine *p = realCanvas.drawFoldLine(curve_points);
+                        FoldLine *p = bufCanvas.drawFoldLine(curve_points);
                         for (size_t i = 0; i < curve_points.size(); i++) {
                             realCanvas.drawCtrlPoint(i, p);
                         }
-                        tempCanvas=realCanvas;
                         algorithm=ALGORITHM::BEZIER;
                         realCanvas.drawCurve(algorithm, p);
+                        curve_points.clear();
+                        setState(NOT_DRAWING);
                     }
-
-//                    setState(NOT_DRAWING);
                     update();
                 }
+                break;
         }
         case DRAW_LINE: {
                 if (event->button() == Qt::LeftButton){
-                    line_points.push_back(Point(x, y));
-                    Point *pt=NULL;
-                    *pt=Point(x, y);
-                    realCanvas.drawCtrlPoint(1,pt);
+                    Point pt=Point(x, y);
+                    line_points.push_back(pt);
+                    realCanvas.drawPoint(pt);   //此处需要一个drawPoint函数显示选中的直线端点
 
                     if(line_points.size() == 2){
                         algorithm=ALGORITHM::DDA;
                         realCanvas.drawLine(algorithm, &line_points[0], &line_points[1]);
                         line_points.clear();
+                        setState(NOT_DRAWING);
                     }
                     update();
                 }
+                break;
         }
+    case DRAW_CIRCLE:{
+            if (event->button() == Qt::LeftButton) {
+                if(circle_state == CIRCLE_NON){
+                    circle_center.x = x;
+                    circle_center.y = y;//圆心
+                    circle_state = CIRCLE_FINISH;
+                }
+                else if(circle_state == CIRCLE_FINISH)
+                {
+                    float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
+                                          (y-circle_center.y)*(y-circle_center.y));
+                    circle_r = qRound(distense);
+                    algorithm=ALGORITHM::MIDPOINT;
+                    bufCanvas = realCanvas;
+                    buf= true;
+                    bufCanvas.drawCircle(algorithm,circle_center,circle_r);
+                    update();
+                    realCanvas = bufCanvas;
+                    buf =false;
+                    realCanvas.drawCircle(algorithm,circle_center,circle_r);
+                    update();
+                    circle_state = CIRCLE_NON;
+                }
+            }
+    }
+    break;
         case NOT_DRAWING:
             break;
     }
@@ -186,12 +212,14 @@ void Painter::clear_all(){
     realCanvas.clear_all();
     bufCanvas.clear_all();
     curve_points.clear();
-    curve_state = CURVE_NON;
+    line_points.clear();
     setState(NOT_DRAWING);
     update();
 }
 
-void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);curve_points.clear();tempCanvas=realCanvas;}
-void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);line_points.clear();tempCanvas=realCanvas;}
-void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);curve_points.clear();tempCanvas=realCanvas;}
+void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);}
+void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);}
+void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
+void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
+
 
