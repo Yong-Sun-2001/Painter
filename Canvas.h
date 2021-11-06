@@ -9,6 +9,7 @@
 #include <Shapes/Curve.h>
 #include <Shapes/CtrlPoint.h>
 #include <Shapes/Line.h>
+#include<Shapes/Circle.h>
 
 class Canvas{
 
@@ -24,6 +25,7 @@ public:
     void drawCurve(ALGORITHM algo, FoldLine *fl);
     void drawPoint(Point pt);
     void drawLine(ALGORITHM algo,Point *st,Point *ed);
+    void drawCircle(ALGORITHM algo,Point &center,int x);
     FoldLine* drawFoldLine(const vector<Point>& vertexes);
     void drawCtrlPoint(int index, FoldLine * fl);
     void setColor(QColor pcolor);
