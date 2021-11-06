@@ -29,7 +29,7 @@ Painter::~Painter()
 void Painter::refreshStateLabel()
 {
     //状态栏展示鼠标位置
-    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + ")" +"";
+    QString str = "(" + QString::number(mouse_x) + "," + QString::number(mouse_y) + ") id:" +QString::number(u_id);
     statusLabel->setText(str);
 }
 
@@ -47,8 +47,8 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
     mouse_y = y;
 
     this->setCursor(Qt::ArrowCursor);
-//    on_curve=false;
-//    u_id=0;
+    on_curve=false;
+    u_id=0;
 
 //    if(state==NOT_DRAWING){
 //        std::vector<PixelSet *> p=realCanvas.PixelSets;
@@ -119,12 +119,13 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     if (curve_points.size() > 2) { //点的个数小于3时，曲线没有意义
                         realCanvas=bufCanvas;
                         buf=false;
-                        FoldLine *p = realCanvas.drawFoldLine(curve_points);
+                        FoldLine *p = bufCanvas.drawFoldLine(curve_points);
                         for (size_t i = 0; i < curve_points.size(); i++) {
                             realCanvas.drawCtrlPoint(i, p);
                         }
                         algorithm=ALGORITHM::BEZIER;
                         realCanvas.drawCurve(algorithm, p);
+                        curve_points.clear();
                         setState(NOT_DRAWING);
                     }
                     update();
@@ -135,12 +136,13 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 if (event->button() == Qt::LeftButton){
                     Point pt=Point(x, y);
                     line_points.push_back(pt);
-                    //realCanvas.drawPoint(1,pt);   //此处需要一个drawPoint函数显示选中的直线端点
+                    realCanvas.drawPoint(pt);   //此处需要一个drawPoint函数显示选中的直线端点
 
                     if(line_points.size() == 2){
                         algorithm=ALGORITHM::DDA;
                         realCanvas.drawLine(algorithm, &line_points[0], &line_points[1]);
                         line_points.clear();
+                        setState(NOT_DRAWING);
                     }
                     update();
                 }
@@ -189,7 +191,7 @@ void Painter::clear_all(){
     update();
 }
 
-void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);curve_points.clear();}
-void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);line_points.clear();}
-void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);curve_points.clear();}
+void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);}
+void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);}
+void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
 

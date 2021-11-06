@@ -48,7 +48,7 @@ FoldLine* Canvas::drawFoldLine(const vector<Point>& vertexes)
 }
 
 
-void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
+void Canvas::drawCtrlPoint(int index, FoldLine * foldline)
 {
     int id= getNewID();
     PixelSet *p = new CtrlPoint(index, foldline);
@@ -56,7 +56,17 @@ void Canvas::drawCtrlPoint(size_t index, FoldLine * foldline)
     PixelSets.push_back(p);
 }
 
-void Canvas::set_color(size_t pcolor)
+void Canvas::drawPoint(Point pt)
+{
+    int id=getNewID();
+    PixelSet *p=new PixelSet;
+    p->setColor(QColor(0xB2, 0xDF, 0xEE));
+    p->add(pt.x,pt.y);
+    p->setID(id);
+    p->setWidth(10);
+    PixelSets.push_back(p);
+}
+void Canvas::setColor(QColor pcolor)
 {
     color=pcolor;
 }

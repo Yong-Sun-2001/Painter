@@ -1,6 +1,6 @@
 #include <Shapes/CtrlPoint.h>
 
-CtrlPoint::CtrlPoint(size_t iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
+CtrlPoint::CtrlPoint(int iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
 {
     index = iindex;
     foldline = ifoldline;

@@ -10,12 +10,13 @@ class PixelSet{
 
 protected:
     int id;
-    QColor color=0xFF0000;
-
-public:
+    QColor color=0xFF0000;   //图形的颜色
     std::vector<Point> points;
+    int width = 1;
+public:
     void setID(int pid);
-    void setColor(int pcolor);
+    void setColor(QColor pcolor);
+    void setWidth(int iwidth);
     int getid();
     void add(int x,int y);
     void translate();
