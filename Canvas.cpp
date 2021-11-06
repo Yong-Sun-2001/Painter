@@ -13,6 +13,14 @@ void Canvas::getImage(QImage* image)
     }
 }
 
+int Canvas::getID(int x, int y)
+{
+    for (int i = 0; i < PixelSets.size(); i++) {
+        int res=PixelSets[i]->getID(x, y);
+        if (res != -1) return res;
+    }
+    return -1;
+}
 
 void Canvas::drawCurve(ALGORITHM algo, FoldLine *fl)
 {

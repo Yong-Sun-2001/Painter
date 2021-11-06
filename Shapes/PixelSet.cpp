@@ -1,6 +1,7 @@
 #include <Shapes/PixelSet.h>
 #include <QPainter>
 #include <QPen>
+
 void PixelSet::setColor(QColor pcolor)
 {
     color=pcolor;
@@ -12,6 +13,19 @@ void PixelSet::setWidth(int iwidth)
 void PixelSet::setID(int pid)
 {
     id=pid;
+}
+
+int PixelSet::getID(int x, int y)
+{
+    int res_ID = -1;
+    for (size_t j = 0; j < points.size(); j++) {
+        int ix = points[j].x;
+        int iy = points[j].y;
+        if ((ix - x)*(ix - x) + (iy - y)*(iy - y) <= 10 * 10) {
+            return id;
+        }
+    }
+    return res_ID;
 }
 
 void PixelSet::add(int x, int y)

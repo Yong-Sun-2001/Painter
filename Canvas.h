@@ -18,7 +18,7 @@ protected:
 public:
     int id_counter = 0;   //图形编号
     std::vector<PixelSet *> PixelSets;   //画布上所有图形的集合
-   // void getid();
+    int getID(int x, int y);
     int getNewID();
     void getImage(QImage *image);
     void drawCurve(ALGORITHM algo, FoldLine *fl);

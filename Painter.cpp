@@ -49,21 +49,27 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
     this->setCursor(Qt::ArrowCursor);
     on_curve=false;
     u_id=0;
-
-//    if(state==NOT_DRAWING){
-//        std::vector<PixelSet *> p=realCanvas.PixelSets;
-//        for(int i=0;i<p.size();++i){
-//            PixelSet q=*p[i];
-//            std::vector<Point> m=q.points;
-//            for(int j=0;j<m.size();++j){
-//                if(abs(m[j].x-x)<=10&&abs(m[j].y-y)<=10){
-//                    this->setCursor(Qt::SizeAllCursor);
-//                    on_curve=true;
-//                    u_id=q.getid();
-//                }
-//            }
-//        }
-//    }
+    int tempid=0;
+    if (buf) {
+        if ((tempid=bufCanvas.getID(x, y)) != -1) {
+            setCursor(Qt::PointingHandCursor);
+            u_id=tempid;
+        }
+        else {
+            setCursor(Qt::ArrowCursor);
+            u_id=0;
+        }
+    }
+    else {
+        if ((tempid=realCanvas.getID(x, y)) != -1) {
+            setCursor(Qt::PointingHandCursor);
+            u_id=tempid;
+        }
+        else {
+            setCursor(Qt::ArrowCursor);
+            u_id=0;
+        }
+    }
     refreshStateLabel();
 }
 
@@ -74,25 +80,9 @@ void Painter::mousePressEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
-    /*
-    if(event->button() == Qt::LeftButton && on_curve==true){
-        std::vector<PixelSet *> p=realCanvas.PixelSets;
-        for(int i=0;i<p.size();++i){
-            PixelSet q=*p[i];
-            if(q.getid()==u_id){
-                std::vector<Point> m=q.points;
-                for(int j=0;j<m.size();++j){
-                    int dx=mouse_x-l_x;int dy=mouse_y-l_y;
-                    m[j].x+=dx;m[j].y+=dy;
-                }
-                //break;
-            }
-        }
-    }
-    l_x=x;
-    l_y=y;
-    update();
-    */
+
+
+
     refreshStateLabel();
 }
 

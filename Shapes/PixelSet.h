@@ -15,6 +15,7 @@ protected:
     int width = 1;
 public:
     void setID(int pid);
+    int getID(int x,int y);
     void setColor(QColor pcolor);
     void setWidth(int iwidth);
     int getid();
