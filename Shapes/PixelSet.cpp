@@ -50,8 +50,6 @@ void PixelSet::paint(QImage *image)
         //image->setPixelColor(var.x, var.y, color);
         myPainter.drawPoint(var.x, var.y);
     }
-
-
 }
 
 int PixelSet::getid(){
