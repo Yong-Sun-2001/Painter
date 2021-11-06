@@ -23,7 +23,6 @@ public:
     void drawCurve(ALGORITHM algo, FoldLine *fl);
     void drawLine(ALGORITHM algo,Point *st,Point *ed);
     FoldLine* drawFoldLine(const vector<Point>& vertexes);
-    void drawCtrlPoint(size_t index,Point *p);
     void drawCtrlPoint(size_t index, FoldLine * fl);
     void set_color(size_t pcolor);
     void clear_all();

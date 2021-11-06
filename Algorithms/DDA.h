@@ -1,6 +1,5 @@
 #ifndef DDA_H
 #define DDA_H
-#include <Shapes/Point.h>
 #include <Shapes/PixelSet.h>
 #include <vector>
 #include <Algorithms/AlgorithmBase.h>
