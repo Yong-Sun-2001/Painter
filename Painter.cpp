@@ -225,6 +225,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
+
     switch (state){
         case DRAW_CURVE:{
             if (event->button() == Qt::LeftButton) {
@@ -268,7 +269,6 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     realCanvas.drawLine(getNewID(), line_Ax, line_Ay, line_Bx, line_By, algorithm);
                     setState(NOT_DRAWING);
                 }
-
             }
             break;
         }
@@ -340,6 +340,20 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     update();
                 }
             }
+            else if(event->button() == Qt::RightButton){
+                //正常状态下，右键单击，弹出菜单
+                selected_ID = realCanvas.getID(x, y);
+                if (selected_ID != -1 && realCanvas.getType(selected_ID) != CTRLPOINT) {
+                    //删除图元Action
+                    QAction* actionDelete = new QAction(tr(u8"删除"));
+                    connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                    //添加菜单项
+                    QMenu menu;
+                    menu.addAction(actionDelete);
+                    //在鼠标位置显示
+                    menu.exec(QCursor::pos());
+                }
+            }
              break;
         }
         default:
@@ -391,3 +405,8 @@ void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
 void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
 void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
 
+void Painter::action_to_delete()
+{
+    realCanvas.delID(selected_ID);
+    update();
+}

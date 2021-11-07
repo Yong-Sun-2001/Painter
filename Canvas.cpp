@@ -78,7 +78,7 @@ int Canvas::getNewID()
 
 void Canvas::getImage(QImage* image)
 {
-   // clearPixelSet();//输出前，先清除无效图元
+    clearPixelSet();//输出前，先清除无效图元
     image->fill(Qt::white);
     for (int i = 0; i < PixelSets.size(); i++) {
         PixelSets[i]->paint(image);
@@ -207,7 +207,7 @@ int Canvas::getType(int id)
 
 void Canvas::delID(int id)
 {
-    for (auto it = PixelSets.begin(); it != PixelSets.end();) {
+    for (auto it = PixelSets.begin(); it != PixelSets.end();++it) {
         if ((*it)->id == id) {
             if ((*it)->type == CURVE) {
                 delete (Curve*)(*it);
@@ -217,9 +217,6 @@ void Canvas::delID(int id)
             }
             it = PixelSets.erase(it);
             return;
-        }
-        else {
-            ++it;
         }
     }
     return;

@@ -11,6 +11,7 @@ CtrlPoint::CtrlPoint(int iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
 
 int CtrlPoint::getID(int x, int y)
 {
+    if (clear_flag) return -1;
     int ix = foldline->vertexes[index].x;
     int iy = foldline->vertexes[index].y;
     if ((ix - x)*(ix - x) + (iy - y)*(iy - y) <= ((width + 2) * (width + 2))/4) {

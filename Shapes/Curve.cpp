@@ -8,6 +8,7 @@ Curve::Curve(ALGORITHM algo,FoldLine * fl)
 }
 Curve::Curve(const Curve & B, Canvas & canvas) : PixelSet(B)
 {
+    type=CURVE;
     vertexes = B.vertexes;
     algorithm = B.algorithm;
     foldline = (FoldLine*)(canvas.getPixelSet(B.foldline->id));
