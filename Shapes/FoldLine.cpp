@@ -1,5 +1,6 @@
 #include <Shapes/FoldLine.h>
-
+#include <Algorithms/CommonFuncs.h>
+class Canvas;
 FoldLine::FoldLine()
 {
     type = FOLDLINE;

@@ -4,12 +4,14 @@
 #include <Algorithms/Bezier.h>
 #include <Algorithms/DDA.h>
 using namespace std;
+#include <Canvas.h>
 class Curve : public PixelSet
 {
 protected:
     vector<Point> vertexes;
     ALGORITHM algorithm;
     FoldLine* foldline;   //用于辅助示意的虚折线（此处注意：拷贝赋值的时候要额外处理）
+    friend class Canvas;
 public:
     Curve() { type = CURVE; }
     Curve(ALGORITHM algo,FoldLine * fl);

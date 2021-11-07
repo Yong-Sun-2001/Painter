@@ -1,5 +1,9 @@
 #include <Canvas.h>
-
+#include <Shapes/FoldLine.h>
+#include <Shapes/Curve.h>
+#include <Shapes/CtrlPoint.h>
+#include <Shapes/Line.h>
+#include<Shapes/Circle.h>
 Canvas::~Canvas()
 {
     for (int i = 0; i < PixelSets.size(); i++) {
@@ -125,11 +129,18 @@ void Canvas::drawCurve(int id, ALGORITHM algorithm, FoldLine *foldline)
     PixelSets.push_back(p);
 }
 
-void Canvas::drawLine(int id,ALGORITHM algo,Point *st,Point *ed)
+void Canvas::drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm)
 {
-    Point startp(st->x,st->y);
-    Point endp(ed->x,ed->y);
-    PixelSet *p = new Line(algo, startp, endp);  //用点构造曲线
+    PixelSet *p;
+    switch (algorithm)
+    {
+    case DDA:
+        p = new Line(x1, y1, x2, y2, DDA);
+        break;
+    default:
+        p = new Line(x1, y1, x2, y2, DDA);
+        break;
+    }
     p->refresh();
     p->setID(id);
     p->setColor(color);
@@ -154,15 +165,13 @@ void Canvas::drawCtrlPoint(int id, int index, FoldLine * foldline)
     PixelSets.push_back(p);
 }
 
-void Canvas::drawPoint(int id,Point pt)
+void Canvas::drawDotPoint(int id, int x, int y, int iwidth, QColor icolor)
 {
-    PixelSet *p=new PixelSet;
-    p->setColor(QColor(0xB2, 0xDF, 0xEE));
-    p->add(pt.x,pt.y);
+    PixelSet *p = new DotPoint(x, y, iwidth, icolor);
     p->setID(id);
-    p->setWidth(10);
     PixelSets.push_back(p);
 }
+
 void Canvas::setColor(QColor pcolor)
 {
     color=pcolor;

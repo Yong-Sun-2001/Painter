@@ -1,11 +1,11 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-#include "PixelSet.h"
+//#include "PixelSet.h"
 #include <vector>
-#include <Algorithms/AlgorithmBase.h>
-#include <QPainter>
 #include <Algorithms/Midpoint.h>
+#include <QPainter>
+
 
 using namespace std;
 

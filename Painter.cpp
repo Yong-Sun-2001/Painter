@@ -1,9 +1,8 @@
 #include "Painter.h"        //自定义应用窗口
 #include "ui_mainwindow.h"  //ui自动生成文件，ui具体类名看这个头文件
 #include <QDebug>
-
 #include <QPainter>
-//This is a pull request test
+#include <Algorithms/CommonFuncs.h>
 Painter::Painter(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -49,6 +48,8 @@ void Painter::refreshStateLabel()
 void Painter::setState(Draw_State s)
 {
     state=s;
+    buf =false;
+    update();
     switch (state)
     {
     case NOT_DRAWING:
@@ -58,15 +59,27 @@ void Painter::setState(Draw_State s)
     case DRAW_LINE:
         state_info = "状态：DRAW_LINE ";
         algo_info = "算法：DDA ";
+        line_state = LINE_NON_POINT;
         break;
     case DRAW_CURVE:
         state_info = "状态：DRAW_CURVE ";
         algo_info = "算法：Bezier ";
-        //curve_points.clear();
+        curve_points.clear();
+        curve_state = CURVE_NON;
         break;
     case DRAW_CIRCLE:
         state_info = "状态：DRAW_CIRCLE ";
         algo_info = "算法：Midpoint ";
+        break;
+    case DRAW_ROTATE:
+        state_info = "状态：DRAW_ROTATE ";
+        algo_info = "算法：无 ";
+        rotate_state = ROTATE_NON;
+        break;
+    case DRAW_SCALE:
+        state_info = "状态：DRAW_SCALE ";
+        algo_info = "算法：无 ";
+        scale_state = SCALE_NON;
         break;
     default:
         break;
@@ -110,18 +123,51 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
     /*状态检测*/
      switch (state){
         case NOT_DRAWING: {
-            if (trans_state==TRANS_START) {
-                realCanvas.translate(trans_ID, x - trans_ix, y - trans_iy);
-                update();
-            }
+             if (trans_state==TRANS_START) {
+                 bufCanvas = realCanvas;
+                 buf = true;
+                 bufCanvas.translate(trans_ID, x - trans_ix, y - trans_iy);
+                 update();
+             }
             break;
         }
+         case DRAW_LINE: {
+             if (line_state == LINE_POINTA) {
+                 bufCanvas = realCanvas;
+                 buf = true;
+                 bufCanvas.drawLine(-1, line_Ax, line_Ay, x, y, algorithm);
+                 update();
+             }
+             break;
+         }
+         case DRAW_ROTATE:{
+             if (rotate_state == ROTATE_BEGIN && (event->buttons() & Qt::LeftButton)) {
+                 int r = getRotateR(init_x, init_y, rotate_rx, rotate_ry, x, y);
+                 bufCanvas = realCanvas;
+                 bufCanvas.drawDotPoint(-1, rotate_rx, rotate_ry);
+                 bufCanvas.rotate(selected_ID, rotate_rx, rotate_ry, r);
+                 buf = true;
+                 update();
+             }
+             break;
+         }
+         case DRAW_SCALE:{
+             if (scale_state == SCALE_BEGIN && (event->buttons() & Qt::LeftButton)) {
+                 double s = getScaleS(init_x, init_y, scale_rx, scale_ry, x, y);
+                 bufCanvas = realCanvas;
+                 bufCanvas.drawDotPoint(-1, scale_rx, scale_ry);
+                 bufCanvas.scale(selected_ID, scale_rx, scale_ry, s);
+                 buf = true;
+                 update();
+             }
+             break;
+         }
         default:
          break;
      }
-
     refreshStateLabel();
 }
+
 
 void Painter::mousePressEvent(QMouseEvent *event)
 {
@@ -138,12 +184,33 @@ void Painter::mousePressEvent(QMouseEvent *event)
                     trans_ID = realCanvas.getID(x, y);
                     if (trans_ID != -1) {
                         trans_ix = x; trans_iy = y;
+                        bufCanvas = realCanvas;
                         trans_state = TRANS_START;
                     }
                 }
             }
-            update();
         }
+        case DRAW_ROTATE: {
+            if (event->button() == Qt::LeftButton) {
+                if (rotate_state == ROTATE_READY && realCanvas.getID(x, y) != -1) {
+                    selected_ID = realCanvas.getID(x, y);
+                    init_x = x; init_y = y;
+                    rotate_state = ROTATE_BEGIN;
+                }
+            }
+            break;
+        }
+        case DRAW_SCALE: {
+            if (event->button() == Qt::LeftButton) {
+                if (scale_state == SCALE_READY && realCanvas.getID(x, y) != -1) {
+                    selected_ID = realCanvas.getID(x, y);
+                    init_x = x; init_y = y;
+                    scale_state = SCALE_BEGIN;
+                }
+            }
+            break;
+        }
+
         default:
             break;
      }
@@ -160,48 +227,83 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     mouse_y = y;
     switch (state){
         case DRAW_CURVE:{
-                if (event->button() == Qt::LeftButton) {
-                    curve_points.push_back(Point(x, y));
-                    bufCanvas = realCanvas;
-                    buf= true;
-                    FoldLine* p = bufCanvas.drawFoldLine(curve_points);
+            if (event->button() == Qt::LeftButton) {
+                curve_points.push_back(Point(x, y));
+                bufCanvas = realCanvas;
+                buf = true;
+                FoldLine* p = bufCanvas.drawFoldLine(-1, curve_points);
+                for (size_t i = 0; i < curve_points.size(); i++) {
+                    bufCanvas.drawCtrlPoint(-1, i, p);
+                }
+                update();
+            }
+            else if (event->button() == Qt::RightButton) {
+                if (curve_points.size() > 2) { //点的个数小于3时，曲线没有意义
+                    FoldLine *p = realCanvas.drawFoldLine(getNewID(), curve_points);
+                    realCanvas.drawCurve(getNewID(), algorithm, p);
                     for (size_t i = 0; i < curve_points.size(); i++) {
-                        bufCanvas.drawCtrlPoint(i, p);
+                        realCanvas.drawCtrlPoint(getNewID(), i, p);
                     }
+                    setState(NOT_DRAWING);
                     update();
                 }
-                else if (event->button() == Qt::RightButton) {
-                    if (curve_points.size() > 2) { //点的个数小于3时，曲线没有意义
-                        realCanvas=bufCanvas;
-                        buf=false;
-                        FoldLine *p = bufCanvas.drawFoldLine(curve_points);
-                        for (size_t i = 0; i < curve_points.size(); i++) {
-                            realCanvas.drawCtrlPoint(i, p);
-                        }
-                        algorithm=ALGORITHM::BEZIER;
-                        realCanvas.drawCurve(getNewID(),algorithm, p);
-                        curve_points.clear();
-                        //setState(NOT_DRAWING);
-                    }
+                else {
+                    setState(NOT_DRAWING);
                     update();
                 }
+            }
                 break;
         }
-        case DRAW_LINE: {
-                if (event->button() == Qt::LeftButton){
-                    Point pt=Point(x, y);
-                    line_points.push_back(pt);
-                    realCanvas.drawPoint(getNewID(),pt);   //此处需要一个drawPoint函数显示选中的直线端点
+
+         case DRAW_LINE: {
+            if (event->button() == Qt::LeftButton) {
+                if (line_state == LINE_NON_POINT) {
+                    line_Ax = event->pos().x();
+                    line_Ay = event->pos().y();
+                    line_state = LINE_POINTA;
+                }
+                else if (line_state == LINE_POINTA) {
+                    line_Bx = event->pos().x();
+                    line_By = event->pos().y();
+                    realCanvas.drawLine(getNewID(), line_Ax, line_Ay, line_Bx, line_By, algorithm);
+                    setState(NOT_DRAWING);
+                }
+
+            }
+            break;
+        }
+       case DRAW_ROTATE: {
+            if (event->button() == Qt::LeftButton) {
+                if (rotate_state == ROTATE_NON) {
+                    rotate_rx = x; rotate_ry = y;
+                    rotate_state = ROTATE_READY;
+                    bufCanvas = realCanvas;
+                    bufCanvas.drawDotPoint(-1, rotate_rx, rotate_ry);
+                    buf = true;
                     update();
-                    if(line_points.size() == 2){
-                        algorithm=ALGORITHM::DDA;
-                        realCanvas.drawLine(getNewID(),algorithm, &line_points[0], &line_points[1]);
-                        line_points.clear();
-                        //setState(NOT_DRAWING);
-                    }
+                }else if (rotate_state == ROTATE_BEGIN) {
+                    rotate_state = ROTATE_READY;
+                    realCanvas = bufCanvas;
+                }
+            }
+            break;
+        }
+       case DRAW_SCALE:{
+            if (event->button() == Qt::LeftButton) {
+                if (scale_state == SCALE_NON) {
+                    scale_rx = x; scale_ry = y;
+                    scale_state = SCALE_READY;
+                    bufCanvas = realCanvas;
+                    bufCanvas.drawDotPoint(-1, scale_rx, scale_ry);
+                    buf = true;
                     update();
                 }
-                break;
+                else if (scale_state == SCALE_BEGIN) {
+                    scale_state = SCALE_READY;
+                    realCanvas = bufCanvas;
+                }
+            }
+            break;
         }
         case DRAW_CIRCLE:{
                     if (event->button() == Qt::LeftButton) {
@@ -230,13 +332,15 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                         break;
           }
         case NOT_DRAWING:{
-                if (event->button() == Qt::LeftButton) {
-                    if (trans_state == TRANS_START) {
-                        trans_state = TRANS_NON;
-                        update();
-                    }
+            if (event->button() == Qt::LeftButton) {
+                if (trans_state == TRANS_START) {
+                    trans_state = TRANS_NON;
+                    realCanvas = bufCanvas;
+                    buf = false;
+                    update();
                 }
-                break;
+            }
+             break;
         }
         default:
             break;
@@ -276,7 +380,6 @@ void Painter::clear_all(){
     realCanvas.clear_all();
     bufCanvas.clear_all();
     curve_points.clear();
-    line_points.clear();
     setState(NOT_DRAWING);
     update();
 }
@@ -285,4 +388,6 @@ void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);}
 void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);}
 void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
 void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
+void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
+void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
 

@@ -5,13 +5,17 @@
 #include <vector>
 #include <QImage>
 #include <QColor>
-#include <Shapes/PixelSet.h>
-#include <Shapes/FoldLine.h>
-#include <Shapes/Curve.h>
-#include <Shapes/CtrlPoint.h>
-#include <Shapes/Line.h>
-#include<Shapes/Circle.h>
+#include <Shapes/Point.h>
+#include <Algorithms/AlgorithmBase.h>
+#include <Shapes/DotPoint.h>
 
+class PixelSet;
+class Curve;
+class CtrlPoint;
+class FoldLine;
+class Line;
+class Circle;
+using namespace std;
 class Canvas{
 
 protected:
@@ -30,8 +34,8 @@ public:
     void delID(int id);
     void getImage(QImage *image);
     void drawCurve(int id,ALGORITHM algo, FoldLine *fl);
-    void drawPoint(int id,Point pt);
-    void drawLine(int id,ALGORITHM algo,Point *st,Point *ed);
+    void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = QColor(0x32, 0xCD, 0x32));
+    void drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm);
     void drawCircle(int id,ALGORITHM algo,Point &center,int x);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);
     void drawCtrlPoint(int id,int index, FoldLine * fl);

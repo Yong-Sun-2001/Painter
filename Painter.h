@@ -1,11 +1,11 @@
-#ifndef PAINTER_H
-#define PAINTER_H
+#pragma once
 
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QLabel>
 #include <Canvas.h>
 #include <vector>
+#include <Shapes/PixelSet.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }   //声明应用窗口需要使用的Ui
@@ -40,7 +40,7 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE};
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_SCALE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
     QString state_info="状态：NOT_DRAWING ";
@@ -52,7 +52,7 @@ private:
     enum ROTATE_STATE { ROTATE_NON, ROTATE_READY, ROTATE_BEGIN };
     ROTATE_STATE rotate_state = ROTATE_NON;
     int rotate_rx, rotate_ry;
-
+    int init_x, init_y;
     /*缩放*/
     enum SCALE_STATE { SCALE_NON, SCALE_READY, SCALE_BEGIN };
     SCALE_STATE scale_state = SCALE_NON;
@@ -64,9 +64,13 @@ private:
 
     /*曲线*/
     std::vector<Point> curve_points;
+    enum CURVE_STATE { CURVE_NON, CURVE_BEGIN };
+    CURVE_STATE curve_state = CURVE_NON;
 
     /*直线*/
-    std::vector<Point> line_points;
+    int line_Ax, line_Ay, line_Bx, line_By;
+    enum LINE_STATE { LINE_NON_POINT, LINE_POINTA };
+    LINE_STATE line_state = LINE_NON_POINT;
 
     /*圆*/
     Point circle_center;
@@ -117,5 +121,7 @@ private slots:
     void on_toolButton_2_clicked();
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();
+    void on_toolButton_5_clicked();
+    void on_toolButton_6_clicked();
 };
-#endif // PAINTER_H
+

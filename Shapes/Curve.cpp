@@ -1,4 +1,5 @@
 #include <Shapes/Curve.h>
+
 Curve::Curve(ALGORITHM algo,FoldLine * fl)
 {
     type = CURVE;

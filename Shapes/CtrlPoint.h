@@ -2,6 +2,8 @@
 #define CTRLPOINT_H
 #include <Shapes/FoldLine.h>
 #include <QColor>
+#include <Canvas.h>
+
 class CtrlPoint : public PixelSet
 {
 protected:
@@ -9,6 +11,7 @@ protected:
     int index;
     FoldLine *foldline;
     friend class Canvas;
+
 public:
     CtrlPoint() { type = CTRLPOINT; }
     CtrlPoint(const CtrlPoint& B, Canvas&canvas);
