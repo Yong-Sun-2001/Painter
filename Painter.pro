@@ -19,6 +19,7 @@ SOURCES += \
     Shapes/FoldLine.cpp \
     Shapes/Line.cpp \
     Shapes/Point.cpp \
+    Shapes/Polygon.cpp \
     main.cpp \
     Painter.cpp \
     Shapes/PixelSet.cpp \
@@ -40,7 +41,8 @@ HEADERS += \
     Shapes/Line.h \
     Shapes/PixelSet.h \
     Algorithms/Bezier.h \
-    Shapes/Point.h
+    Shapes/Point.h \
+    Shapes/Polygon.h
 
 FORMS += \
     mainwindow.ui

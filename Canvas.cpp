@@ -172,6 +172,34 @@ void Canvas::drawDotPoint(int id, int x, int y, int iwidth, QColor icolor)
     PixelSets.push_back(p);
 }
 
+void Canvas::drawPolygon(int id, const vector<Point> &vertexs, ALGORITHM algorithm)
+{
+    bool hasID = false;
+    int keyIndex = -1;
+    for (int i = 0; i < PixelSets.size(); i++) {
+        if (PixelSets[i]->id == id) {
+            hasID = true; keyIndex = i;
+        }
+    }
+    if (hasID) { //已有，则重画
+        delete PixelSets[keyIndex];
+        if (algorithm == DDA)
+            PixelSets[keyIndex] = new Polygon(vertexs, DDA);
+        PixelSets[keyIndex]->refresh();
+        PixelSets[keyIndex]->setID(id);
+        PixelSets[keyIndex]->setColor(color);
+    }
+    else {
+        PixelSet *p;
+        if (algorithm == DDA)
+            p = new Polygon(vertexs, DDA);
+        p->refresh();
+        p->setID(id);
+        p->setColor(color);
+        PixelSets.push_back(p);
+    }
+}
+
 void Canvas::setColor(QColor pcolor)
 {
     color=pcolor;

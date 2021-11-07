@@ -14,3 +14,11 @@ void drawLine_DDA(int x0,int x1,int y0,int y1, PixelSet& myset){
            if (e2 < dy) { err += dx; y0 += sy; }
          }
 }
+
+void drawPolygon_DDA(const vector<Point>& vertexs, PixelSet& myset)
+{
+    size_t n=vertexs.size();
+    for(size_t i=0;i<n-1;i++){
+        drawLine_DDA(vertexs[i].x,vertexs[i+1].x,vertexs[i].y,vertexs[i+1].y,myset);
+    }
+}

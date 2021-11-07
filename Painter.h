@@ -40,7 +40,7 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_SCALE};
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
     QString state_info="状态：NOT_DRAWING ";
@@ -61,6 +61,16 @@ private:
     /*裁剪*/
     enum CLIP_STATE { CLIP_NON, CLIP_BEGIN };
     CLIP_STATE clip_state = CLIP_NON;
+
+    /*多边形*/
+    int startX, startY;
+    vector<Point> poly_points;
+    vector<Point> bufpoly_points;
+    int poly_id;
+    enum POLY_STATE { POLY_NON_POINT, POLY_PAINTING };
+    POLY_STATE poly_state = POLY_NON_POINT;
+    int AUTO_BIAS = 15; //多边形绘图自动贴合开启的距离（圆形区域的半径）
+    bool autoPoly(int &nowx, int &nowy);
 
     /*曲线*/
     std::vector<Point> curve_points;
@@ -123,5 +133,6 @@ private slots:
     void on_toolButton_4_clicked();
     void on_toolButton_5_clicked();
     void on_toolButton_6_clicked();
+    void on_toolButton_7_clicked();
 };
 

@@ -59,17 +59,20 @@ void Painter::setState(Draw_State s)
     case DRAW_LINE:
         state_info = "状态：DRAW_LINE ";
         algo_info = "算法：DDA ";
+        algorithm=DDA;
         line_state = LINE_NON_POINT;
         break;
     case DRAW_CURVE:
         state_info = "状态：DRAW_CURVE ";
         algo_info = "算法：Bezier ";
+        algorithm=BEZIER;
         curve_points.clear();
         curve_state = CURVE_NON;
         break;
     case DRAW_CIRCLE:
         state_info = "状态：DRAW_CIRCLE ";
         algo_info = "算法：Midpoint ";
+        algorithm=MIDPOINT;
         break;
     case DRAW_ROTATE:
         state_info = "状态：DRAW_ROTATE ";
@@ -80,6 +83,14 @@ void Painter::setState(Draw_State s)
         state_info = "状态：DRAW_SCALE ";
         algo_info = "算法：无 ";
         scale_state = SCALE_NON;
+        break;
+    case DRAW_POLYGON:
+        state_info = "状态：DRAW_POLYGON ";
+        algo_info = "算法：DDA ";
+        algorithm=DDA;
+        poly_state = POLY_NON_POINT;
+        poly_points.clear();
+        poly_id = getNewID();
         break;
     default:
         break;
@@ -122,6 +133,16 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
 
     /*状态检测*/
      switch (state){
+     case DRAW_POLYGON:{
+         if (poly_state == POLY_PAINTING) {
+             autoPoly(x, y);//自动贴合修正
+             bufpoly_points = poly_points;
+             bufpoly_points.push_back(Point(x, y));
+             bufCanvas.drawPolygon(poly_id, bufpoly_points, algorithm);
+             buf = true;
+             update();
+         }
+     }
         case NOT_DRAWING: {
              if (trans_state==TRANS_START) {
                  bufCanvas = realCanvas;
@@ -225,6 +246,13 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     int y = event->pos().y();
     mouse_x = x;
     mouse_y = y;
+
+    if (state != NOT_DRAWING && state != DRAW_CURVE) {
+        if (event->button() == Qt::RightButton) {
+            setState(NOT_DRAWING);
+            return;
+        }
+    }
 
     switch (state){
         case DRAW_CURVE:{
@@ -356,6 +384,28 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
             }
              break;
         }
+    case DRAW_POLYGON:{
+        if (event->button() == Qt::LeftButton) {
+            if (poly_state == POLY_NON_POINT) {
+                startX = event->pos().x();
+                startY = event->pos().y();
+                bufCanvas = realCanvas;
+                poly_points.push_back(Point(startX, startY));
+                poly_state = POLY_PAINTING;
+            }
+            else if (poly_state == POLY_PAINTING) {
+                if (autoPoly(x, y)) {//是否自动贴合判断
+                    poly_points.push_back(Point(x, y));
+                    realCanvas.drawPolygon(poly_id, poly_points, algorithm);
+                    setState(NOT_DRAWING);
+                }
+                else {
+                    poly_points.push_back(Point(x, y));
+                }
+            }
+        }
+        break;
+    }
         default:
             break;
     }
@@ -404,9 +454,23 @@ void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
 void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
 void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
 void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
+void Painter::on_toolButton_7_clicked(){setState(DRAW_POLYGON);}
 
 void Painter::action_to_delete()
 {
     realCanvas.delID(selected_ID);
     update();
 }
+
+bool Painter::autoPoly(int & nowx, int & nowy)
+{
+    if ((nowx - startX)*(nowx - startX) + (nowy - startY)*(nowy - startY) < AUTO_BIAS*AUTO_BIAS) {
+        nowx = startX; nowy = startY;
+        return true;
+    }
+    return false;
+}
+
+
+
+
