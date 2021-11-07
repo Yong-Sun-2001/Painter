@@ -21,6 +21,12 @@ void Line::refresh()
     }
 }
 
+void Line::translate(int dx, int dy) {
+    //PixelSet::translate(dx, dy);
+    x1 += dx; y1 += dy;
+    x2 += dx; y2 += dy;
+}
+
 void Line::paint(QImage * image)
 {
     refresh();

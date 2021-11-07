@@ -2,6 +2,7 @@
 
 CtrlPoint::CtrlPoint(int iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
 {
+    type = CTRLPOINT;
     index = iindex;
     foldline = ifoldline;
     width = iwidth;
@@ -20,13 +21,22 @@ int CtrlPoint::getID(int x, int y)
     }
 }
 
+void CtrlPoint::translate(int dx, int dy)
+{
+    if (clear_flag) return;
+    foldline->vertexes[index].x+=dx;
+    foldline->vertexes[index].y+=dy;
+}
+
 void CtrlPoint::paint(QImage * image)
 {
-    int x=0,y=0;
-    if(foldline){
-         x = foldline->vertexes[index].x;
-         y = foldline->vertexes[index].y;
+    if (clear_flag) return;
+    if (foldline->clear_flag) {
+        clear_flag = true;
+        return;
     }
+    int x = foldline->vertexes[index].x;
+    int y = foldline->vertexes[index].y;
     QPainter myPainter(image);
     QPen myPen(color);
     myPen.setWidth(width);
@@ -34,3 +44,14 @@ void CtrlPoint::paint(QImage * image)
     myPainter.setPen(myPen);
     myPainter.drawPoint(x, y);
 }
+
+CtrlPoint::CtrlPoint(const CtrlPoint & B, Canvas & canvas) :PixelSet(B) {
+    type = CTRLPOINT;
+    width = B.width;
+    index = B.index;
+    clear_flag = B.clear_flag;
+    if (clear_flag) return;
+    foldline = (FoldLine*)(canvas.getPixelSet(B.foldline->id));
+    assert(foldline != nullptr);
+}
+

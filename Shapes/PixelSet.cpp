@@ -52,22 +52,14 @@ void PixelSet::paint(QImage *image)
     }
 }
 
-int PixelSet::getid(){
-    return id;
-}
 
-void PixelSet::scale()
+void PixelSet::translate(int dx, int dy)
 {
-
+    for (auto var = points.begin(); var != points.end(); ++var) {
+        var->x += dx;
+        var->y += dy;
+    }
 }
 
-void PixelSet::rotate()
-{
-
-}
-
-void PixelSet::refresh()
-{
-}
 
 

@@ -30,14 +30,37 @@ private:
     /*画布状态*/
     bool buf=false;
 
+    /*id管理*/
+    int ID_Counter = 0;
+    int getNewID();
+
     /*标签*/
-    QLabel* statusLabel;
+    QLabel* statusLabel_pos;
+    QLabel* statusLabel_state;
     void refreshStateLabel();
 
     /*编辑状态*/
     enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
+    QString state_info="状态：NOT_DRAWING ";
+
+    /*选中*/
+    int selected_ID;
+
+    /*旋转*/
+    enum ROTATE_STATE { ROTATE_NON, ROTATE_READY, ROTATE_BEGIN };
+    ROTATE_STATE rotate_state = ROTATE_NON;
+    int rotate_rx, rotate_ry;
+
+    /*缩放*/
+    enum SCALE_STATE { SCALE_NON, SCALE_READY, SCALE_BEGIN };
+    SCALE_STATE scale_state = SCALE_NON;
+    int scale_rx, scale_ry;
+
+    /*裁剪*/
+    enum CLIP_STATE { CLIP_NON, CLIP_BEGIN };
+    CLIP_STATE clip_state = CLIP_NON;
 
     /*曲线*/
     std::vector<Point> curve_points;
@@ -51,8 +74,16 @@ private:
     enum CIRCLE_STATE {CIRCLE_NON,CIRCLE_FINISH};
     CIRCLE_STATE circle_state = CIRCLE_NON;
 
+    /*平移*/
+    enum TRANS_STATE {TRANS_NON,TRANS_START};
+    TRANS_STATE trans_state=TRANS_NON;
+    int trans_ID=-1;
+    int trans_ix=0;
+    int trans_iy=0;
+
     /*算法*/
     ALGORITHM algorithm;
+    QString algo_info="算法：无 ";
 
 //=====================================================================
 

@@ -12,7 +12,7 @@ public:
     Line(ALGORITHM algo,Point start,Point end);
     void refresh();
     void paint(QImage *image);
-    //平移
+    void translate(int dx,int dy);
 
 };
 #endif // LINE_H

@@ -13,9 +13,13 @@ protected:
     friend class Curve;
     friend class CtrlPoint;
 public:
-    FoldLine(const vector<Point>& ivertexes);
+    FoldLine();
+    FoldLine(const vector<Point>& ivertexs, int iwidth = 2, QColor icolor = QColor(0xB2, 0xDF, 0xEE));
     void setVertexes(const vector<Point>& ivertexs);
     void paint(QImage *image);
+    void translate(int dx,int dy);
+    void rotate(int x, int y, int r);
+    void scale(int x, int y, float s);
 };
 
 #endif // FOLDLINE_H

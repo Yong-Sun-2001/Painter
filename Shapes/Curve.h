@@ -11,11 +11,16 @@ protected:
     ALGORITHM algorithm;
     FoldLine* foldline;   //用于辅助示意的虚折线（此处注意：拷贝赋值的时候要额外处理）
 public:
+    Curve() { type = CURVE; }
     Curve(ALGORITHM algo,FoldLine * fl);
-    //void SetAlgorithm(ALGORITHM algo);
+    Curve(const Curve& B, Canvas& canvas);
+    ~Curve();
     void refresh();
     void paint(QImage *image);
-    //平移
+    void translate(int dx,int dy);
+    void rotate(int x, int y, int r);
+    void scale(int x, int y, float s);
+
 
 };
 #endif // CURVE_H
