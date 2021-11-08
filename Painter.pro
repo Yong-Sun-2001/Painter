@@ -16,6 +16,7 @@ SOURCES += \
     Shapes/CtrlPoint.cpp \
     Shapes/Curve.cpp \
     Shapes/DotPoint.cpp \
+    Shapes/Ellipse.cpp \
     Shapes/FoldLine.cpp \
     Shapes/Line.cpp \
     Shapes/Point.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     Shapes/CtrlPoint.h \
     Shapes/Curve.h \
     Shapes/DotPoint.h \
+    Shapes/Ellipse.h \
     Shapes/FoldLine.h \
     Shapes/Line.h \
     Shapes/PixelSet.h \

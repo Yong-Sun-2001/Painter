@@ -10,6 +10,7 @@ Triangle::Triangle()
 Triangle::Triangle(const Triangle& B):PixelSet(B)
 {
     type = TRIANGLE;
+    fill_flag=B.fill_flag;
     x1 = B.x1;
     y1 = B.y1;
     x2 = B.x2;
