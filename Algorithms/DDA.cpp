@@ -21,3 +21,10 @@ void drawPolygon_DDA(const vector<Point>& vertexs, PixelSet& myset)
         drawLine_DDA(vertexs[i].x,vertexs[i+1].x,vertexs[i].y,vertexs[i+1].y,myset);
     }
 }
+
+void drawTriangel_DDA(int x1,int y1,int x2,int y2,int x3,int y3,PixelSet& myset)
+{
+    drawLine_DDA(x1, x2, y1, y2, myset);
+    drawLine_DDA(x2, x3, y2, y3, myset);
+    drawLine_DDA(x3, x1, y3, y1, myset);
+}
