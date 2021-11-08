@@ -23,7 +23,6 @@ private:
     Ui::MainWindow *ui;
     Canvas realCanvas;
     Canvas bufCanvas;
-    Canvas tempCanvas;
 
 //=====================================================================
 // 状态及数据
@@ -53,6 +52,7 @@ private:
     ROTATE_STATE rotate_state = ROTATE_NON;
     int rotate_rx, rotate_ry;
     int init_x, init_y;
+
     /*缩放*/
     enum SCALE_STATE { SCALE_NON, SCALE_READY, SCALE_BEGIN };
     SCALE_STATE scale_state = SCALE_NON;
