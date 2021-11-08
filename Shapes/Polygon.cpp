@@ -9,6 +9,7 @@ Polygon::Polygon(const Polygon& B) : PixelSet(B)
 {
     vertexs.clear();
     vertexs.assign(B.vertexs.begin(), B.vertexs.end());
+    fill_flag=B.fill_flag;
     algorithm = B.algorithm;
     polygon_closed = B.polygon_closed;
 }

@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <Algorithms/CommonFuncs.h>
 #include <QColorDialog>
+#include <QObject>
 Painter::Painter(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -423,6 +424,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 tri_Cx = event->pos().x();
                 tri_Cy = event->pos().y();
                 realCanvas.drawTriangle(getNewID(), tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy,algorithm);
+                triangle_state=TRI_NON;
                 setState(NOT_DRAWING);
             }
         }

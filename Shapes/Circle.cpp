@@ -7,6 +7,7 @@ Circle::Circle()
 Circle::Circle(const Circle& B):PixelSet(B)
 {
     type=CIRCLE;
+    fill_flag=B.fill_flag;
     cx=B.cx;
     cy=B.cy;
     cr=B.cr;
