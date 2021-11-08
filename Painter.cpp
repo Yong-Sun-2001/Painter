@@ -565,7 +565,7 @@ bool Painter::autoPoly(int & nowx, int & nowy)
     return false;
 }
 
-void Painter::actionPen() {
+void Painter::action_to_set_color() {
     penColor = QColorDialog::getColor(Qt::black,this,u8"绘图颜色选择");
     realCanvas.setColor(penColor);
     refresh_ColorIcon();

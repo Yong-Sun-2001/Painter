@@ -132,7 +132,7 @@ private slots:
 
     void action_to_delete();
     void action_to_fill();
-    void actionPen();
+    void action_to_set_color();
 //=====================================================================
     void on_toolButton_clicked();
     void on_toolButton_2_clicked();

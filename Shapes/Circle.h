@@ -15,7 +15,6 @@ public:
     Circle();
     Circle(const Circle& B);
     Circle(ALGORITHM algo,int x,int y,int r);
-    void setColor(QColor color);
     void paint(QImage *image);
     void refresh();
     void fill(QColor fcolor);
@@ -25,7 +24,6 @@ protected:
     int cx;
     int cy;
     int cr;
-    QColor ccolor;
 };
 
 #endif // CIRCLE_H

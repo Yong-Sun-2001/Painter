@@ -229,6 +229,7 @@ void Canvas::drawCircle(int id,ALGORITHM algo,Point &center,int r)
     PixelSet *p = new Circle(algo,center.x,center.y,r);
     p->refresh();
     p->setID(id);
+    p->setColor(color);
     PixelSets.push_back(p);
 }
 
