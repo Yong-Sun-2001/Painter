@@ -9,6 +9,7 @@
 #include <Algorithms/AlgorithmBase.h>
 #include <Shapes/DotPoint.h>
 #include <Shapes/Polygon.h>
+#include <Shapes/Rectangle.h>
 class PixelSet;
 class Curve;
 class CtrlPoint;
@@ -36,6 +37,7 @@ public:
     void drawCurve(int id,ALGORITHM algo, FoldLine *fl);
     void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = QColor(0x32, 0xCD, 0x32));
     void drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm);
+    void drawRectangle(int id,int x1,int y1,int x2,int y2);
     void drawCircle(int id,ALGORITHM algo,Point &center,int x);
     void drawPolygon(int id, const vector<Point>& vertexs, ALGORITHM algorithm);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);

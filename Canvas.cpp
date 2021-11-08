@@ -66,6 +66,9 @@ const Canvas & Canvas::operator=(const Canvas & B)
             case CIRCLE:
                 p = new Circle(*((Circle*)B.PixelSets[i]));
                 break;
+            case RECTANGLE:
+                p=new Rectangle(*((Rectangle*)B.PixelSets[i]));
+                break;
             default:
                 p = nullptr;
                 break;
@@ -147,6 +150,16 @@ void Canvas::drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorith
         p = new Line(x1, y1, x2, y2, DDA);
         break;
     }
+    p->refresh();
+    p->setID(id);
+    p->setColor(color);
+    PixelSets.push_back(p);
+}
+
+void Canvas::drawRectangle(int id, int x1, int y1, int x2, int y2)
+{
+    PixelSet *p;
+    p = new Rectangle(x1, y1, x2, y2);
     p->refresh();
     p->setID(id);
     p->setColor(color);

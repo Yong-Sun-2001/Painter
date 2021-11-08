@@ -58,9 +58,10 @@ private:
     SCALE_STATE scale_state = SCALE_NON;
     int scale_rx, scale_ry;
 
-    /*裁剪*/
-    enum CLIP_STATE { CLIP_NON, CLIP_BEGIN };
-    CLIP_STATE clip_state = CLIP_NON;
+    /*矩形*/
+    int rec_x1, rec_y1, rec_x2, rec_y2;
+    enum REC_STATE { REC_NON_POINT, REC_POINTA };
+    REC_STATE rec_state = REC_NON_POINT;
 
     /*多边形*/
     int startX, startY;
@@ -134,5 +135,6 @@ private slots:
     void on_toolButton_5_clicked();
     void on_toolButton_6_clicked();
     void on_toolButton_7_clicked();
+    void on_toolButton_8_clicked();
 };
 

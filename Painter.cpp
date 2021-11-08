@@ -95,6 +95,12 @@ void Painter::setState(Draw_State s)
         poly_points.clear();
         poly_id = getNewID();
         break;
+    case DRAW_RECTANGLE:
+        state_info = "状态：DRAW_RECTANGLE ";
+        algo_info = "算法：无 ";
+        algorithm=NONE;
+        rec_state = REC_NON_POINT;
+        break;
     default:
         break;
     }
@@ -136,16 +142,16 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
 
     /*状态检测*/
      switch (state){
-     case DRAW_POLYGON:{
-         if (poly_state == POLY_PAINTING) {
-             autoPoly(x, y);//自动贴合修正
-             bufpoly_points = poly_points;
-             bufpoly_points.push_back(Point(x, y));
-             bufCanvas.drawPolygon(poly_id, bufpoly_points, algorithm);
-             buf = true;
-             update();
+         case DRAW_POLYGON:{
+             if (poly_state == POLY_PAINTING) {
+                 autoPoly(x, y);//自动贴合修正
+                 bufpoly_points = poly_points;
+                 bufpoly_points.push_back(Point(x, y));
+                 bufCanvas.drawPolygon(poly_id, bufpoly_points, algorithm);
+                 buf = true;
+                 update();
+             }
          }
-     }
         case NOT_DRAWING: {
              if (trans_state==TRANS_START) {
                  bufCanvas = realCanvas;
@@ -164,6 +170,15 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
              }
              break;
          }
+     case DRAW_RECTANGLE: {
+         if (rec_state == REC_POINTA) {
+             bufCanvas = realCanvas;
+             buf = true;
+             bufCanvas.drawRectangle(-1, rec_x1, rec_y1, x, y);
+             update();
+         }
+         break;
+     }
      case DRAW_CIRCLE:{
          if(circle_state == CIRCLE_FINISH){
              bufCanvas = realCanvas;
@@ -315,7 +330,22 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
             }
             break;
         }
-
+    case DRAW_RECTANGLE: {
+       if (event->button() == Qt::LeftButton) {
+           if (rec_state == REC_NON_POINT) {
+               rec_x1 = event->pos().x();
+               rec_y1 = event->pos().y();
+               rec_state = REC_POINTA;
+           }
+           else if (rec_state == REC_POINTA) {
+               rec_x2 = event->pos().x();
+               rec_y2 = event->pos().y();
+               realCanvas.drawRectangle(getNewID(), rec_x1, rec_y1, rec_x2, rec_y2);
+               setState(NOT_DRAWING);
+           }
+       }
+       break;
+   }
     case DRAW_CIRCLE:{
                 if (event->button() == Qt::LeftButton) {
                     if(circle_state == CIRCLE_NON){
@@ -468,6 +498,7 @@ void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
 void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
 void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
 void Painter::on_toolButton_7_clicked(){setState(DRAW_POLYGON);}
+void Painter::on_toolButton_8_clicked(){setState(DRAW_RECTANGLE);}
 
 void Painter::action_to_delete()
 {
@@ -483,6 +514,9 @@ bool Painter::autoPoly(int & nowx, int & nowy)
     }
     return false;
 }
+
+
+
 
 
 

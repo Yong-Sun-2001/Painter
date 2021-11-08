@@ -117,6 +117,19 @@
      <string>Polygon</string>
     </property>
    </widget>
+   <widget class="QToolButton" name="toolButton_8">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>120</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rectangle</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

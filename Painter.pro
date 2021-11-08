@@ -20,6 +20,7 @@ SOURCES += \
     Shapes/Line.cpp \
     Shapes/Point.cpp \
     Shapes/Polygon.cpp \
+    Shapes/Rectangle.cpp \
     main.cpp \
     Painter.cpp \
     Shapes/PixelSet.cpp \
@@ -42,7 +43,8 @@ HEADERS += \
     Shapes/PixelSet.h \
     Algorithms/Bezier.h \
     Shapes/Point.h \
-    Shapes/Polygon.h
+    Shapes/Polygon.h \
+    Shapes/Rectangle.h
 
 FORMS += \
     mainwindow.ui
