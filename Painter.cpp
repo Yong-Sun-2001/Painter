@@ -4,12 +4,14 @@
 #include <QPainter>
 #include <Algorithms/CommonFuncs.h>
 #include <QColorDialog>
+#include <QObject>
 Painter::Painter(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    QObject::connect(ui->actionPen, SIGNAL(triggered()), this, SLOT(action_to_set_color_pen()));
+    QObject::connect(ui->actionFill, SIGNAL(triggered()), this, SLOT(action_to_set_color_fill()));
     refresh_ColorIcon_pen();
     refresh_ColorIcon_fill();
     //鼠标追踪,这部分代码可以放到ui的setupui函数中，目前为了保持直观，不对自动生成的ui文件修改
