@@ -45,15 +45,24 @@ void Rectangle::refresh()
 
 void Rectangle::rotate(int x, int y, int r)
 {
-    rotatePoint(x1, y1, x, y, r);
-    rotatePoint(x2, y2, x, y, r);
+    int center_x=(x1+x2)/2;
+    int center_y=(y1+y2)/2;
+    int cp_x=center_x;
+    int cp_y=center_y;
+    rotatePoint(center_x, center_y, x, y, r);
+    int dx=cp_x-center_x;
+    int dy=cp_y-center_y;
+    x1-=dx;
+    x2-=dx;
+    y1-=dy;
+    y2-=dy;
     refresh();
 }
 
 void Rectangle::scale(int x, int y, float s)
 {
-    scalePoint(x1, y1, x, y, s);
-    scalePoint(x2, y2, x, y, s);
+    scalePoint(x1,y1,x,y,s);
+    scalePoint(x2,y2,x,y,s);
     refresh();
 }
 
