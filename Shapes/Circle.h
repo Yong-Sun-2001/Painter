@@ -18,6 +18,9 @@ public:
     void paint(QImage *image);
     void refresh();
     void fill(QColor fcolor);
+    void translate(int dx,int dy);
+    void rotate(int x, int y, int r);
+    void scale(int x, int y, float s);
 protected:
     vector<Point> vertexes;
     ALGORITHM algorithm;

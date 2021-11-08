@@ -29,6 +29,8 @@ Canvas::Canvas(const Canvas & B)
             case FOLDLINE:
                 p = new FoldLine(*((FoldLine*)B.PixelSets[i]));
                 break;
+            case CIRCLE:
+                p = new Circle(*((Circle*)B.PixelSets[i]));
             default:
                 break;
             }
