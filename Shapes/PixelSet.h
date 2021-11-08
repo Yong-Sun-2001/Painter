@@ -29,6 +29,7 @@ public:
     PixelSet(const PixelSet& B) {
         id = B.id;
         color = B.color;
+        width = B.width;
         type=B.type;
         points.clear();
         points.assign(B.points.begin(), B.points.end());
