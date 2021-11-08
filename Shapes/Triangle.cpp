@@ -1,14 +1,15 @@
 #include <Shapes/Triangle.h>
 #include <Algorithms/CommonFuncs.h>
+#include <Algorithms/DDA.h>
 
 Triangle::Triangle()
 {
     type = TRIANGLE;
 }
 
-Triangle::Triangle(const Triangle& B) : PixelSet(B)
+Triangle::Triangle(const Triangle& B):PixelSet(B)
 {
-    type=TRIANGLE;
+    type = TRIANGLE;
     x1 = B.x1;
     y1 = B.y1;
     x2 = B.x2;
@@ -31,9 +32,7 @@ void Triangle::refresh()
 {
     points.clear();
     if (algorithm == DDA) {
-        drawLine_DDA(x1, x2, y1, y2, *this);
-        drawLine_DDA(x2, x3, y2, y3, *this);
-        drawLine_DDA(x3, x1, y3, y1, *this);
+        drawTriangel_DDA(x1,y1,x2,y2,x3,y3,*this);
     }
 }
 
