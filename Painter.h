@@ -98,8 +98,8 @@ private:
 
     /*三角形*/
     int tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy;
-    enum TRIANGLE_STATE { TRI_A,TRI_B,TRI_C};
-    TRIANGLE_STATE triangle_state = TRI_A;
+    enum TRIANGLE_STATE { TRI_NON,TRI_A,TRI_B,TRI_C};
+    TRIANGLE_STATE triangle_state = TRI_NON;
 
     /*平移*/
     enum TRANS_STATE {TRANS_NON,TRANS_START};

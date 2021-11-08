@@ -6,8 +6,9 @@ Triangle::Triangle()
     type = TRIANGLE;
 }
 
-Triangle::Triangle(const Triangle& B)
+Triangle::Triangle(const Triangle& B) : PixelSet(B)
 {
+    type=TRIANGLE;
     x1 = B.x1;
     y1 = B.y1;
     x2 = B.x2;

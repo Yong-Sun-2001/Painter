@@ -119,8 +119,8 @@ void Painter::setState(Draw_State s)
         break;
     case DRAW_TRIANGLE:
         state_info = "状态：DRAW_TRIANGLE ";
-        algo_info = "算法：无 ";
-        algorithm=NONE;
+        algo_info = "算法：DDA ";
+        algorithm=DDA;
         triangle_state = TRI_A;
         break;
     default:
@@ -422,6 +422,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 tri_Cx = event->pos().x();
                 tri_Cy = event->pos().y();
                 realCanvas.drawTriangle(getNewID(), tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy,algorithm);
+                triangle_state=TRI_NON;
                 setState(NOT_DRAWING);
             }
         }
