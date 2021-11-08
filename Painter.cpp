@@ -341,7 +341,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
     mouse_x = x;
     mouse_y = y;
 
-    if (state != NOT_DRAWING && state != DRAW_CURVE) {
+    if (state != NOT_DRAWING && state != DRAW_CURVE &&state!=MUL_CHOICE) {
         if (event->button() == Qt::RightButton) {
             setState(NOT_DRAWING);
             return;
