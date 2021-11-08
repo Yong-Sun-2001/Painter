@@ -16,6 +16,7 @@ class CtrlPoint;
 class FoldLine;
 class Line;
 class Circle;
+class Triangel;
 using namespace std;
 class Canvas{
 
@@ -40,6 +41,7 @@ public:
     void drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm);
     void drawRectangle(int id,int x1,int y1,int x2,int y2);
     void drawCircle(int id,ALGORITHM algo,Point &center,int x);
+    void drawTriangle(int id, int x1, int y1, int x2, int y2,int x3,int y3, ALGORITHM algorithm);
     void drawPolygon(int id, const vector<Point>& vertexs, ALGORITHM algorithm);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);
     void drawCtrlPoint(int id,int index, FoldLine * fl);

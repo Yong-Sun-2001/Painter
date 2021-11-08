@@ -43,7 +43,8 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE};
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,
+                    DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE,DRAW_TRIANGLE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
     QString state_info="状态：NOT_DRAWING ";
@@ -92,6 +93,11 @@ private:
     int circle_r;//半径
     enum CIRCLE_STATE {CIRCLE_NON,CIRCLE_FINISH};
     CIRCLE_STATE circle_state = CIRCLE_NON;
+
+    /*三角形*/
+    int tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy;
+    enum TRIANGLE_STATE { TRI_A,TRI_B,TRI_C};
+    TRIANGLE_STATE triangle_state = TRI_A;
 
     /*平移*/
     enum TRANS_STATE {TRANS_NON,TRANS_START};
@@ -142,5 +148,6 @@ private slots:
     void on_toolButton_6_clicked();
     void on_toolButton_7_clicked();
     void on_toolButton_8_clicked();
+    void on_toolButton_9_clicked();
 };
 

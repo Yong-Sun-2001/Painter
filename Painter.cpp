@@ -109,6 +109,12 @@ void Painter::setState(Draw_State s)
         algorithm=NONE;
         rec_state = REC_NON_POINT;
         break;
+    case DRAW_TRIANGLE:
+        state_info = "状态：DRAW_TRIANGLE ";
+        algo_info = "算法：无 ";
+        algorithm=NONE;
+        triangle_state = TRI_A;
+        break;
     default:
         break;
     }
@@ -195,6 +201,22 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
                                    (y-circle_center.y)*(y-circle_center.y));
              circle_r = qRound(distense);
              bufCanvas.drawCircle(-1,algorithm,circle_center,circle_r);
+             update();
+         }
+         break;
+     }
+     case DRAW_TRIANGLE: {
+         if (triangle_state == TRI_B) {
+             bufCanvas = realCanvas;
+             buf = true;
+             bufCanvas.drawLine(-1, tri_Ax, tri_Ay, x, y, algorithm);
+             update();
+         }
+         else if (triangle_state == TRI_C) {
+             bufCanvas = realCanvas;
+             buf = true;
+             bufCanvas.drawLine(-1, tri_Ax, tri_Ay, tri_Bx, tri_By, algorithm);
+             bufCanvas.drawLine(-1, tri_Bx, tri_By, x, y, algorithm);
              update();
          }
          break;
@@ -376,6 +398,27 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                     break;
       }
 
+    case DRAW_TRIANGLE: {
+        if (event->button() == Qt::LeftButton) {
+            if (triangle_state == TRI_A) {
+                tri_Ax = event->pos().x();
+                tri_Ay = event->pos().y();
+                triangle_state = TRI_B;
+            }
+            else if (triangle_state == TRI_B) {
+                tri_Bx = event->pos().x();
+                tri_By = event->pos().y();
+                triangle_state = TRI_C;
+            }
+            else if(triangle_state == TRI_C) {
+                tri_Cx = event->pos().x();
+                tri_Cy = event->pos().y();
+                realCanvas.drawTriangle(getNewID(), tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy,algorithm);
+                setState(NOT_DRAWING);
+            }
+        }
+        break;
+    }
        case DRAW_ROTATE: {
             if (event->button() == Qt::LeftButton) {
                 if (rotate_state == ROTATE_NON) {
@@ -460,6 +503,18 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                                 menu.exec(QCursor::pos());
                                 break;
                         }
+                    case TRIANGLE:{
+                                QMenu menu;
+                                QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                                connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                                menu.addAction(actionDelete);
+
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
+                                menu.addAction(actionFill);
+                                menu.exec(QCursor::pos());
+                                break;
+                    }
                         default:{
                                 QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
                                 connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
@@ -543,6 +598,7 @@ void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
 void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
 void Painter::on_toolButton_7_clicked(){setState(DRAW_POLYGON);}
 void Painter::on_toolButton_8_clicked(){setState(DRAW_RECTANGLE);}
+void Painter::on_toolButton_9_clicked(){setState(DRAW_TRIANGLE);}
 
 void Painter::action_to_delete()
 {
@@ -570,6 +626,9 @@ void Painter::action_to_set_color() {
     realCanvas.setColor(penColor);
     refresh_ColorIcon();
 }
+
+
+
 
 
 

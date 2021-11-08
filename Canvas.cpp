@@ -4,6 +4,7 @@
 #include <Shapes/CtrlPoint.h>
 #include <Shapes/Line.h>
 #include<Shapes/Circle.h>
+#include <Shapes/Triangle.h>
 Canvas::~Canvas()
 {
     for (int i = 0; i < PixelSets.size(); i++) {
@@ -31,6 +32,10 @@ Canvas::Canvas(const Canvas & B)
                 break;
             case CIRCLE:
                 p = new Circle(*((Circle*)B.PixelSets[i]));
+                break;
+            case TRIANGLE:
+                p = new Triangle(*((Triangle*)B.PixelSets[i]));
+                break;
             default:
                 break;
             }
@@ -71,6 +76,8 @@ const Canvas & Canvas::operator=(const Canvas & B)
             case RECTANGLE:
                 p=new Rectangle(*((Rectangle*)B.PixelSets[i]));
                 break;
+            case TRIANGLE:
+                p = new Triangle(*((Triangle*)B.PixelSets[i]));
             default:
                 p = nullptr;
                 break;
@@ -229,6 +236,24 @@ void Canvas::setColor(QColor pcolor)
 void Canvas::drawCircle(int id,ALGORITHM algo,Point &center,int r)
 {
     PixelSet *p = new Circle(algo,center.x,center.y,r);
+    p->refresh();
+    p->setID(id);
+    p->setColor(color);
+    PixelSets.push_back(p);
+}
+
+void Canvas::drawTriangle(int id, int x1, int y1, int x2, int y2,int x3,int y3, ALGORITHM algorithm)
+{
+    PixelSet *p;
+    switch (algorithm)
+    {
+    case DDA:
+        p = new Triangle(x1, y1, x2, y2, x3, y3, DDA);
+        break;
+    default:
+        p = new Triangle(x1, y1, x2, y2, x3, y3, DDA);
+        break;
+    }
     p->refresh();
     p->setID(id);
     p->setColor(color);
