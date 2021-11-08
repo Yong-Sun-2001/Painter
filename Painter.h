@@ -152,5 +152,6 @@ private slots:
     void on_toolButton_7_clicked();
     void on_toolButton_8_clicked();
     void on_toolButton_9_clicked();
+    void on_setPenWidth_valueChanged(int value);
 };
 

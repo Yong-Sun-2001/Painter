@@ -145,6 +145,7 @@ void Canvas::drawCurve(int id, ALGORITHM algorithm, FoldLine *foldline)
     PixelSet *p = new Curve(algorithm, foldline);
     p->setID(id);
     p->setColor(color);
+    p->setWidth(penWidth);
     PixelSets.push_back(p);
 }
 
@@ -163,6 +164,7 @@ void Canvas::drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorith
     p->refresh();
     p->setID(id);
     p->setColor(color);
+    p->setWidth(penWidth);
     PixelSets.push_back(p);
 }
 
@@ -173,6 +175,7 @@ void Canvas::drawRectangle(int id, int x1, int y1, int x2, int y2)
     p->refresh();
     p->setID(id);
     p->setColor(color);
+    p->setWidth(penWidth);
     PixelSets.push_back(p);
 }
 
@@ -225,6 +228,7 @@ void Canvas::drawPolygon(int id, const vector<Point> &vertexs, ALGORITHM algorit
         p->refresh();
         p->setID(id);
         p->setColor(color);
+        p->setWidth(penWidth);
         PixelSets.push_back(p);
     }
 }
@@ -239,12 +243,18 @@ void Canvas::setColor_fill(QColor pcolor)
     fill_color=pcolor;
 }
 
+void Canvas::setPen_width(int w)
+{
+    penWidth = w;
+}
+
 void Canvas::drawCircle(int id,ALGORITHM algo,Point &center,int r)
 {
     PixelSet *p = new Circle(algo,center.x,center.y,r);
     p->refresh();
     p->setID(id);
     p->setColor(color);
+    p->setWidth(penWidth);
     PixelSets.push_back(p);
 }
 
@@ -263,6 +273,7 @@ void Canvas::drawTriangle(int id, int x1, int y1, int x2, int y2,int x3,int y3, 
     p->refresh();
     p->setID(id);
     p->setColor(color);
+    p->setWidth(penWidth);
     PixelSets.push_back(p);
 }
 

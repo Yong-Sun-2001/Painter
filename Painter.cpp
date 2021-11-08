@@ -650,3 +650,10 @@ void Painter::action_to_set_color_fill() {
 
 
 
+
+void Painter::on_setPenWidth_valueChanged(int value)
+{
+    bufCanvas.setPen_width(value);
+    realCanvas.setPen_width(value);
+}
+

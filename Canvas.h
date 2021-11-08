@@ -23,6 +23,7 @@ class Canvas{
 protected:
     QColor color=0xFF0000;   //画笔颜色
     QColor fill_color=Qt::red;
+    int penWidth = 1;
 public:
     Canvas():color(0, 0, 0) {}
     Canvas(const Canvas& B);
@@ -49,6 +50,7 @@ public:
     void setColor_fill(int r, int g, int b);
     void setColor_pen(QColor pcolor);
     void setColor_fill(QColor pcolor);
+    void setPen_width(int w);
     void clear_all();
     void translate(int id, int dx, int dy);
     void rotate(int id, int x, int y, int r);
