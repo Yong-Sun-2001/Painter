@@ -26,6 +26,10 @@ private:
 
 //=====================================================================
 // 状态及数据
+    /*颜色*/
+    void refresh_ColorIcon();
+    QColor penColor=Qt::black;
+
     /*画布状态*/
     bool buf=false;
 
@@ -128,6 +132,7 @@ private slots:
 
     void action_to_delete();
     void action_to_fill();
+    void actionPen();
 //=====================================================================
     void on_toolButton_clicked();
     void on_toolButton_2_clicked();
