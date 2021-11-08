@@ -45,7 +45,7 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_ELLIPSE,
                     DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE,DRAW_TRIANGLE};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
@@ -101,6 +101,13 @@ private:
     enum TRIANGLE_STATE { TRI_NON,TRI_A,TRI_B,TRI_C};
     TRIANGLE_STATE triangle_state = TRI_NON;
 
+    /*椭圆*/
+    int cx, cy;//圆心
+    int rx = 0, ry = 0;//长短轴
+    enum ELLI_STATE { ELLI_NON, ELLI_PAINTING };
+    ELLI_STATE elli_state = ELLI_NON;
+    int changing_dx, changing_dy;
+
     /*平移*/
     enum TRANS_STATE {TRANS_NON,TRANS_START};
     TRANS_STATE trans_state=TRANS_NON;
@@ -153,5 +160,6 @@ private slots:
     void on_toolButton_8_clicked();
     void on_toolButton_9_clicked();
     void on_setPenWidth_valueChanged(int value);
+    void on_toolButton_10_clicked();
 };
 

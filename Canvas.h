@@ -45,6 +45,7 @@ public:
     void drawTriangle(int id, int x1, int y1, int x2, int y2,int x3,int y3, ALGORITHM algorithm);
     void drawPolygon(int id, const vector<Point>& vertexs, ALGORITHM algorithm);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);
+    void drawEllipse(int id, int x, int y, int rx, int ry);
     void drawCtrlPoint(int id,int index, FoldLine * fl);
     void setColor_pen(int r, int g, int b);
     void setColor_fill(int r, int g, int b);

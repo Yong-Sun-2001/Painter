@@ -5,6 +5,7 @@
 #include <Shapes/Line.h>
 #include<Shapes/Circle.h>
 #include <Shapes/Triangle.h>
+#include <Shapes/Ellipse.h>
 Canvas::~Canvas()
 {
     for (int i = 0; i < PixelSets.size(); i++) {
@@ -35,6 +36,9 @@ Canvas::Canvas(const Canvas & B)
                 break;
             case TRIANGLE:
                 p = new Triangle(*((Triangle*)B.PixelSets[i]));
+                break;
+            case ELLIPSE:
+                p = new Ellipse(*((Ellipse*)B.PixelSets[i]));
                 break;
             default:
                 break;
@@ -78,6 +82,9 @@ const Canvas & Canvas::operator=(const Canvas & B)
                 break;
             case TRIANGLE:
                 p = new Triangle(*((Triangle*)B.PixelSets[i]));
+                break;
+            case ELLIPSE:
+                p = new Ellipse(*((Ellipse*)B.PixelSets[i]));
                 break;
             default:
                 p = nullptr;
@@ -172,6 +179,16 @@ void Canvas::drawRectangle(int id, int x1, int y1, int x2, int y2)
 {
     PixelSet *p;
     p = new Rectangle(x1, y1, x2, y2);
+    p->refresh();
+    p->setID(id);
+    p->setColor(color);
+    p->setWidth(penWidth);
+    PixelSets.push_back(p);
+}
+
+void Canvas::drawEllipse(int id, int x, int y, int rx, int ry)
+{
+    PixelSet *p = new Ellipse(x, y, rx, ry);
     p->refresh();
     p->setID(id);
     p->setColor(color);

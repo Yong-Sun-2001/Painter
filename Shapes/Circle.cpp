@@ -37,9 +37,10 @@ void Circle::refresh()
                     this->add(i,2*cy-j);
                     this->add(2*cx-i,2*cy-j);
                 }
+                else
+                    break;
             }
         }
-        //fillCircle();
     }
     else{
         if (algorithm == MIDPOINT) {

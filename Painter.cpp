@@ -126,6 +126,10 @@ void Painter::setState(Draw_State s)
         algorithm=DDA;
         triangle_state = TRI_A;
         break;
+    case DRAW_ELLIPSE:
+        state_info = "状态：DRAW_ELLIPSE ";
+        algo_info = "";
+        elli_state = ELLI_NON;
     default:
         break;
     }
@@ -212,6 +216,21 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
                                    (y-circle_center.y)*(y-circle_center.y));
              circle_r = qRound(distense);
              bufCanvas.drawCircle(-1,algorithm,circle_center,circle_r);
+             update();
+         }
+         break;
+     }
+     case DRAW_ELLIPSE:{
+         if(elli_state == ELLI_PAINTING){
+             init_x = cx;
+             init_y = cy;
+             bufCanvas = realCanvas;
+             buf = true;
+             changing_dx = qAbs(x - init_x);
+             changing_dy = qAbs(y - init_y);
+             changing_dx = ((init_x - cx)*(x - init_x) >= 0) ? changing_dx : (-changing_dx);
+             changing_dy = ((init_y - cy)*(y - init_y) >= 0) ? changing_dy : (-changing_dy);
+             bufCanvas.drawEllipse(-1, cx, cy, changing_dx, changing_dy);
              update();
          }
          break;
@@ -407,7 +426,23 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 }
                     break;
       }
-
+    case DRAW_ELLIPSE:{
+        if (event->button() == Qt::LeftButton) {
+            if (elli_state == ELLI_NON) {
+                cx = x; cy = y;
+                bufCanvas = realCanvas;
+                buf = true;
+                update();
+                elli_state = ELLI_PAINTING;
+            }
+            else if (elli_state == ELLI_PAINTING) {
+                realCanvas .drawEllipse(getNewID(), cx, cy, changing_dx, changing_dy);
+                elli_state = ELLI_NON;
+                setState(NOT_DRAWING);
+                update();
+               }
+            }
+    }
     case DRAW_TRIANGLE: {
         if (event->button() == Qt::LeftButton) {
             if (triangle_state == TRI_A) {
@@ -610,6 +645,7 @@ void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
 void Painter::on_toolButton_7_clicked(){setState(DRAW_POLYGON);}
 void Painter::on_toolButton_8_clicked(){setState(DRAW_RECTANGLE);}
 void Painter::on_toolButton_9_clicked(){setState(DRAW_TRIANGLE);}
+void Painter::on_toolButton_10_clicked(){setState(DRAW_ELLIPSE);}
 
 void Painter::action_to_delete()
 {
@@ -645,15 +681,12 @@ void Painter::action_to_set_color_fill() {
 }
 
 
-
-
-
-
-
-
 void Painter::on_setPenWidth_valueChanged(int value)
 {
     bufCanvas.setPen_width(value);
     realCanvas.setPen_width(value);
 }
+
+
+
 

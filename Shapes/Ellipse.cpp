@@ -53,7 +53,6 @@ void drawEllipse(int x,int y,int rx,int ry, PixelSet& myset)
     }
     //平移：(0,0)->(x,y)
     myset.PixelSet::translate(x,y);
-
 }
 Ellipse::Ellipse()
 {
