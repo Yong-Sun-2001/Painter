@@ -33,6 +33,7 @@ void PixelSet::add(int x, int y)
     points.push_back(Point(x, y));
 }
 
+
 void PixelSet::paint(QImage *image)
 {
     int x = image->size().width();
