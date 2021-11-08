@@ -55,6 +55,7 @@ void Painter::setState(Draw_State s)
     case NOT_DRAWING:
         state_info = "状态：NOT_DRAWING ";
         algo_info = "算法：无 ";
+        algorithm=NONE;
         break;
     case DRAW_LINE:
         state_info = "状态：DRAW_LINE ";
@@ -77,11 +78,13 @@ void Painter::setState(Draw_State s)
     case DRAW_ROTATE:
         state_info = "状态：DRAW_ROTATE ";
         algo_info = "算法：无 ";
+        algorithm=NONE;
         rotate_state = ROTATE_NON;
         break;
     case DRAW_SCALE:
         state_info = "状态：DRAW_SCALE ";
         algo_info = "算法：无 ";
+        algorithm=NONE;
         scale_state = SCALE_NON;
         break;
     case DRAW_POLYGON:

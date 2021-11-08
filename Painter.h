@@ -96,7 +96,7 @@ private:
     int trans_iy=0;
 
     /*算法*/
-    ALGORITHM algorithm;
+    ALGORITHM algorithm=NONE;
     QString algo_info="算法：无 ";
 
 //=====================================================================

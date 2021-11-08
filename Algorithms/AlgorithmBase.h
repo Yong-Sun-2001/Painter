@@ -5,7 +5,7 @@
 #include<math.h>
 
 enum ALGORITHM {
-    BEZIER,DDA,MIDPOINT,COHEN
+    NONE,BEZIER,DDA,MIDPOINT,COHEN
 };
 
 
