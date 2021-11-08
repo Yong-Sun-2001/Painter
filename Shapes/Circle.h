@@ -12,11 +12,13 @@ using namespace std;
 class Circle : public PixelSet
 {
 public:
+    Circle();
+    Circle(const Circle& B);
     Circle(ALGORITHM algo,int x,int y,int r);
     void setColor(QColor color);
     void paint(QImage *image);
     void refresh();
-private:
+protected:
     vector<Point> vertexes;
     ALGORITHM algorithm;
     int cx;

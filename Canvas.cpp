@@ -60,6 +60,12 @@ const Canvas & Canvas::operator=(const Canvas & B)
             case CTRLPOINT:
                 p = new CtrlPoint(*((CtrlPoint*)B.PixelSets[i]), *this);
                 break;
+            case POLYGON:
+                p = new Polygon(*((Polygon*)B.PixelSets[i]));
+                break;
+            case CIRCLE:
+                p = new Circle(*((Circle*)B.PixelSets[i]));
+                break;
             default:
                 p = nullptr;
                 break;
