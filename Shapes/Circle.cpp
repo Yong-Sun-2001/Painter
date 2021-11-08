@@ -1,4 +1,5 @@
 #include <Shapes/Circle.h>
+#include <Algorithms/CommonFuncs.h>
 Circle::Circle()
 {
     type = CIRCLE;
@@ -50,4 +51,22 @@ void Circle::fill(QColor fcolor)
     fill_flag=true;
     color=fcolor;
     refresh();
+}
+
+void Circle::rotate(int x, int y, int r)
+{
+    rotatePoint(cx, cy, x, y, r);
+    refresh();
+}
+
+void Circle::scale(int x, int y, float s)
+{
+    scalePoint(cx, cy, x, y, s);
+    cr = cr*s;
+    refresh();
+}
+
+void Circle::translate(int dx, int dy) {
+    PixelSet::translate(dx, dy);
+    cx += dx; cy += dy;
 }
