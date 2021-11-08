@@ -15,6 +15,7 @@ class CtrlPoint;
 class FoldLine;
 class Line;
 class Circle;
+class Triangel;
 using namespace std;
 class Canvas{
 
@@ -37,6 +38,7 @@ public:
     void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = QColor(0x32, 0xCD, 0x32));
     void drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm);
     void drawCircle(int id,ALGORITHM algo,Point &center,int x);
+    void drawTriangel(int id, int x1, int y1, int x2, int y2,int x3,int y3, ALGORITHM algorithm);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);
     void drawCtrlPoint(int id,int index, FoldLine * fl);
     void setColor(int r, int g, int b);

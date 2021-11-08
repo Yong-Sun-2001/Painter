@@ -3,7 +3,8 @@
 #include <Shapes/Curve.h>
 #include <Shapes/CtrlPoint.h>
 #include <Shapes/Line.h>
-#include<Shapes/Circle.h>
+#include <Shapes/Circle.h>
+#include <Shapes/Triangel.h>
 Canvas::~Canvas()
 {
     for (int i = 0; i < PixelSets.size(); i++) {
@@ -28,6 +29,9 @@ Canvas::Canvas(const Canvas & B)
                 break;
             case FOLDLINE:
                 p = new FoldLine(*((FoldLine*)B.PixelSets[i]));
+                break;
+            case TRIANGEL:
+                p = new Triangel(*((Triangel*)B.PixelSets[i]));
                 break;
             default:
                 break;
@@ -59,6 +63,9 @@ const Canvas & Canvas::operator=(const Canvas & B)
                 break;
             case CTRLPOINT:
                 p = new CtrlPoint(*((CtrlPoint*)B.PixelSets[i]), *this);
+                break;
+            case TRIANGEL:
+                p = new Triangel(*((Triangel*)B.PixelSets[i]));
                 break;
             default:
                 p = nullptr;
@@ -182,6 +189,24 @@ void Canvas::drawCircle(int id,ALGORITHM algo,Point &center,int r)
     PixelSet *p = new Circle(algo,center.x,center.y,r);
     p->refresh();
     p->setID(id);
+    PixelSets.push_back(p);
+}
+
+void Canvas::drawTriangel(int id, int x1, int y1, int x2, int y2,int x3,int y3, ALGORITHM algorithm)
+{
+    PixelSet *p;
+    switch (algorithm)
+    {
+    case DDA:
+        p = new Triangel(x1, y1, x2, y2, x3, y3, DDA);
+        break;
+    default:
+        p = new Triangel(x1, y1, x2, y2, x3, y3, DDA);
+        break;
+    }
+    p->refresh();
+    p->setID(id);
+    p->setColor(color);
     PixelSets.push_back(p);
 }
 

@@ -71,6 +71,11 @@ void Painter::setState(Draw_State s)
         state_info = "状态：DRAW_CIRCLE ";
         algo_info = "算法：Midpoint ";
         break;
+    case DRAW_TRIANGEL:
+        state_info = "状态：DRAW_TRIANGEL ";
+        algo_info = "算法：DDA ";
+        triangel_state = TRI_A;
+        break;
     case DRAW_ROTATE:
         state_info = "状态：DRAW_ROTATE ";
         algo_info = "算法：无 ";
@@ -140,18 +145,34 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
              }
              break;
          }
-     case DRAW_CIRCLE:{
-         if(circle_state == CIRCLE_FINISH){
-             bufCanvas = realCanvas;
-             buf = true;
-             float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
-                                   (y-circle_center.y)*(y-circle_center.y));
-             circle_r = qRound(distense);
-             bufCanvas.drawCircle(-1,algorithm,circle_center,circle_r);
-             update();
+         case DRAW_CIRCLE:{
+             if(circle_state == CIRCLE_FINISH){
+                 bufCanvas = realCanvas;
+                 buf = true;
+                 float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
+                                       (y-circle_center.y)*(y-circle_center.y));
+                 circle_r = qRound(distense);
+                 bufCanvas.drawCircle(-1,algorithm,circle_center,circle_r);
+                 update();
+            }
+            break;
          }
-         break;
-     }
+//         case DRAW_TRIANGEL: {
+//             if (triangel_state == TRI_B) {
+//                 bufCanvas = realCanvas;
+//                 buf = true;
+//                 bufCanvas.drawLine(-1, tri_Ax, tri_Ay, x, y, algorithm);
+//                 update();
+//             }
+//             else if (triangel_state == TRI_C) {
+//                 bufCanvas = realCanvas;
+//                 buf = true;
+//                 bufCanvas.drawLine(-1, tri_Ax, tri_Ay, tri_Bx, tri_By, algorithm);
+//                 bufCanvas.drawLine(-1, tri_Bx, tri_By, x, y, algorithm);
+//                 update();
+//             }
+//             break;
+//         }
          case DRAW_ROTATE:{
              if (rotate_state == ROTATE_BEGIN && (event->buttons() & Qt::LeftButton)) {
                  int r = getRotateR(init_x, init_y, rotate_rx, rotate_ry, x, y);
@@ -306,6 +327,27 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 }
                     break;
       }
+    case DRAW_TRIANGEL: {
+        if (event->button() == Qt::LeftButton) {
+            if (triangel_state == TRI_A) {
+                tri_Ax = event->pos().x();
+                tri_Ay = event->pos().y();
+                triangel_state = TRI_B;
+            }
+            else if (triangel_state == TRI_B) {
+                tri_Bx = event->pos().x();
+                tri_By = event->pos().y();
+                triangel_state = TRI_C;
+            }
+            else if(triangel_state == TRI_C) {
+                tri_Cx = event->pos().x();
+                tri_Cy = event->pos().y();
+                realCanvas.drawTriangel(getNewID(), tri_Ax, tri_Ay, tri_Bx, tri_By, tri_Cx, tri_Cy,algorithm);
+                setState(NOT_DRAWING);
+            }
+        }
+        break;
+        }
 
        case DRAW_ROTATE: {
             if (event->button() == Qt::LeftButton) {
@@ -414,9 +456,12 @@ void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
 void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
 void Painter::on_toolButton_5_clicked(){setState(DRAW_ROTATE);}
 void Painter::on_toolButton_6_clicked(){setState(DRAW_SCALE);}
-
+void Painter::on_toolButton_7_clicked(){setState(DRAW_TRIANGEL);}
 void Painter::action_to_delete()
 {
     realCanvas.delID(selected_ID);
     update();
 }
+
+
+
