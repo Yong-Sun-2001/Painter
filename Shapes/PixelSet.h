@@ -20,6 +20,7 @@ protected:
     std::vector<Point> points;
     int width = 1;
     bool clear_flag = false;//标记是否无效，需要被清除
+    bool fill_flag=false;
     friend class Canvas;
 public:
     PS_TYPE type;//图元类型

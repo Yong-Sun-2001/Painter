@@ -11,6 +11,7 @@ Rectangle::Rectangle(const Rectangle& B) :PixelSet(B)
 {
     x1 = B.x1; y1 = B.y1;
     x2 = B.x2; y2 = B.y2;
+    fill_flag=B.fill_flag;
     width = B.width;
     type = RECTANGLE;
 }
@@ -33,13 +34,20 @@ void Rectangle::refresh()
     points.clear();
     if(x1>x2) swap(x1,x2);
     if(y1>y2) swap(y1,y2);
-    for(int x=x1;x<=x2;x++){
-        this->add(x,y1);
-        this->add(x,y2);
+    if(fill_flag){
+        for (int y = y1; y <= y2; y++)
+                for (int x = x1; x <= x2; x++)
+                    this->add(x, y);
     }
-    for(int y=y1;y<=y2;y++){
-        this->add(x1,y);
-        this->add(x2,y);
+    else{
+        for(int x=x1;x<=x2;x++){
+            this->add(x,y1);
+            this->add(x,y2);
+        }
+        for(int y=y1;y<=y2;y++){
+            this->add(x1,y);
+            this->add(x2,y);
+        }
     }
 }
 
@@ -74,12 +82,8 @@ void Rectangle::translate(int dx, int dy) {
 
 void Rectangle::fill(QColor fcolor)
 {
-    if(x1>x2) swap(x1,x2);
-    if(y1>y2) swap(y1,y2);
+    fill_flag=true;
     color=fcolor;
-    for (int y = y1; y <= y2; y++)
-            for (int x = x1; x <= x2; x++)
-                add(x, y);
     refresh();
 }
 
