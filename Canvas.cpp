@@ -219,9 +219,14 @@ void Canvas::drawPolygon(int id, const vector<Point> &vertexs, ALGORITHM algorit
     }
 }
 
-void Canvas::setColor(QColor pcolor)
+void Canvas::setColor_pen(QColor pcolor)
 {
     color=pcolor;
+}
+
+void Canvas::setColor_fill(QColor pcolor)
+{
+    fill_color=pcolor;
 }
 
 void Canvas::drawCircle(int id,ALGORITHM algo,Point &center,int r)
@@ -238,9 +243,14 @@ void Canvas::clear_all(){
     id_counter = 0;
 }
 
-void Canvas::setColor(int r, int g, int b)
+void Canvas::setColor_pen(int r, int g, int b)
 {
     color.setRgb(r, g, b);
+}
+
+void Canvas::setColor_fill(int r, int g, int b)
+{
+    fill_color.setRgb(r, g, b);
 }
 
 int Canvas::getType(int id)

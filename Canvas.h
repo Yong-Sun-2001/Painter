@@ -43,8 +43,10 @@ public:
     void drawPolygon(int id, const vector<Point>& vertexs, ALGORITHM algorithm);
     FoldLine* drawFoldLine(int id,const vector<Point>& vertexes);
     void drawCtrlPoint(int id,int index, FoldLine * fl);
-    void setColor(int r, int g, int b);
-    void setColor(QColor pcolor);
+    void setColor_pen(int r, int g, int b);
+    void setColor_fill(int r, int g, int b);
+    void setColor_pen(QColor pcolor);
+    void setColor_fill(QColor pcolor);
     void clear_all();
     void translate(int id, int dx, int dy);
     void rotate(int id, int x, int y, int r);

@@ -9,7 +9,8 @@ Painter::Painter(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    refresh_ColorIcon();
+    refresh_ColorIcon_pen();
+    refresh_ColorIcon_fill();
     //鼠标追踪,这部分代码可以放到ui的setupui函数中，目前为了保持直观，不对自动生成的ui文件修改
     this->setMouseTracking(true);
     this->centralWidget()->setMouseTracking(true);
@@ -46,11 +47,18 @@ void Painter::refreshStateLabel()
     statusLabel_state->setText(state_str);
 }
 
-void Painter::refresh_ColorIcon()
+void Painter::refresh_ColorIcon_pen()
 {
     QImage icon(30, 30, QImage::Format_RGB32);
     icon.fill(penColor);
     ui->actionPen->setIcon(QPixmap::fromImage(icon));
+}
+
+void Painter::refresh_ColorIcon_fill()
+{
+    QImage icon(30, 30, QImage::Format_RGB32);
+    icon.fill(fillColor);
+    ui->actionFill->setIcon(QPixmap::fromImage(icon));
 }
 
 void Painter::setState(Draw_State s)
@@ -565,12 +573,17 @@ bool Painter::autoPoly(int & nowx, int & nowy)
     return false;
 }
 
-void Painter::action_to_set_color() {
+void Painter::action_to_set_color_pen() {
     penColor = QColorDialog::getColor(Qt::black,this,u8"绘图颜色选择");
-    realCanvas.setColor(penColor);
-    refresh_ColorIcon();
+    realCanvas.setColor_pen(penColor);
+    refresh_ColorIcon_pen();
 }
 
+void Painter::action_to_set_color_fill() {
+    fillColor = QColorDialog::getColor(Qt::black,this,u8"绘图颜色选择");
+    realCanvas.setColor_fill(fillColor);
+    refresh_ColorIcon_fill();
+}
 
 
 
