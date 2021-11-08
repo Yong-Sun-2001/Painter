@@ -27,6 +27,7 @@ Circle::Circle(ALGORITHM algo,int x,int y,int r)
 
 void Circle::refresh()
 {
+    points.clear();
     if(fill_flag){
         for(int i=cx;i<=cx+cr;++i){
             for(int j=cy;j<=cy+cr;++j){
