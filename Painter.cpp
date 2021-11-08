@@ -119,8 +119,8 @@ void Painter::setState(Draw_State s)
         break;
     case DRAW_TRIANGLE:
         state_info = "状态：DRAW_TRIANGLE ";
-        algo_info = "算法：无 ";
-        algorithm=NONE;
+        algo_info = "算法：DDA ";
+        algorithm=DDA;
         triangle_state = TRI_A;
         break;
     default:
@@ -223,8 +223,7 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
          else if (triangle_state == TRI_C) {
              bufCanvas = realCanvas;
              buf = true;
-             bufCanvas.drawLine(-1, tri_Ax, tri_Ay, tri_Bx, tri_By, algorithm);
-             bufCanvas.drawLine(-1, tri_Bx, tri_By, x, y, algorithm);
+             bufCanvas.drawTriangle(-1,tri_Ax, tri_Ay, tri_Bx, tri_By,x,y,algorithm);
              update();
          }
          break;

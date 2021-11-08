@@ -78,6 +78,7 @@ const Canvas & Canvas::operator=(const Canvas & B)
                 break;
             case TRIANGLE:
                 p = new Triangle(*((Triangle*)B.PixelSets[i]));
+                break;
             default:
                 p = nullptr;
                 break;
