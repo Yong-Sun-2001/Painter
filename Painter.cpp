@@ -140,6 +140,18 @@ void Painter::mouseMoveEvent(QMouseEvent *event)       //mouseMoveEvent为父类
              }
              break;
          }
+     case DRAW_CIRCLE:{
+         if(circle_state == CIRCLE_FINISH){
+             bufCanvas = realCanvas;
+             buf = true;
+             float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
+                                   (y-circle_center.y)*(y-circle_center.y));
+             circle_r = qRound(distense);
+             bufCanvas.drawCircle(-1,algorithm,circle_center,circle_r);
+             update();
+         }
+         break;
+     }
          case DRAW_ROTATE:{
              if (rotate_state == ROTATE_BEGIN && (event->buttons() & Qt::LeftButton)) {
                  int r = getRotateR(init_x, init_y, rotate_rx, rotate_ry, x, y);
@@ -272,6 +284,29 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
             }
             break;
         }
+
+    case DRAW_CIRCLE:{
+                if (event->button() == Qt::LeftButton) {
+                    if(circle_state == CIRCLE_NON){
+                        circle_center.x = event->pos().x();
+                        circle_center.y = event->pos().y();//圆心
+                        circle_state = CIRCLE_FINISH;
+                    }
+                    else if(circle_state == CIRCLE_FINISH)
+                    {
+                        float distense = sqrt((event->pos().x()-circle_center.x)*(event->pos().x()-circle_center.x)+
+                                              (event->pos().y()-circle_center.y)*(event->pos().y()-circle_center.y));
+                        circle_r = qRound(distense);
+                        algorithm=ALGORITHM::MIDPOINT;
+                        realCanvas.drawCircle(getNewID(),algorithm,circle_center,circle_r);
+                        //update();
+                        circle_state = CIRCLE_NON;
+                        setState(NOT_DRAWING);
+                    }
+                }
+                    break;
+      }
+
        case DRAW_ROTATE: {
             if (event->button() == Qt::LeftButton) {
                 if (rotate_state == ROTATE_NON) {
@@ -305,32 +340,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
             }
             break;
         }
-        case DRAW_CIRCLE:{
-                    if (event->button() == Qt::LeftButton) {
-                        if(circle_state == CIRCLE_NON){
-                            circle_center.x = x;
-                            circle_center.y = y;//圆心
-                            circle_state = CIRCLE_FINISH;
-                        }
-                        else if(circle_state == CIRCLE_FINISH)
-                        {
-                            float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
-                                                  (y-circle_center.y)*(y-circle_center.y));
-                            circle_r = qRound(distense);
-                            algorithm=ALGORITHM::MIDPOINT;
-                            bufCanvas = realCanvas;
-                            buf= true;
-                            bufCanvas.drawCircle(getNewID(),algorithm,circle_center,circle_r);
-                            update();
-                            realCanvas = bufCanvas;
-                            buf =false;
-                            realCanvas.drawCircle(getNewID(),algorithm,circle_center,circle_r);
-                            update();
-                            circle_state = CIRCLE_NON;
-                        }
-                    }
-                        break;
-          }
+
         case NOT_DRAWING:{
             if (event->button() == Qt::LeftButton) {
                 if (trans_state == TRANS_START) {
