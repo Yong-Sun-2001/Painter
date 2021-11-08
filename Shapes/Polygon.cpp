@@ -56,3 +56,7 @@ void Polygon::scale(int x, int y, float s)
     }
     refresh();
 }
+
+void Polygon::fill(QColor fcolor)
+{
+}

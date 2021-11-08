@@ -43,5 +43,6 @@ public:
     virtual void rotate(int x, int y, int r){}
     virtual void refresh(){}
     virtual void clip(int x1, int y1, int x2, int y2, ALGORITHM algorithm) {}
+    virtual void fill(QColor fcolor){};
 };
 #endif // PIXELSET_H

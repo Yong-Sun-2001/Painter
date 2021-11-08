@@ -269,6 +269,17 @@ void Canvas::delID(int id)
     return;
 }
 
+void Canvas::fill(int id)
+{
+    for (auto it = PixelSets.begin(); it != PixelSets.end();++it) {
+        if ((*it)->id == id) {
+            (*it)->fill(color);
+            return;
+        }
+    }
+    return;
+}
+
 PixelSet * Canvas::getPixelSet(int id)
 {
     for (size_t i = 0; i < PixelSets.size(); i++) {

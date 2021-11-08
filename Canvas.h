@@ -33,6 +33,7 @@ public:
     int getType(int id);
     int getNewID();
     void delID(int id);
+    void fill(int id);
     void getImage(QImage *image);
     void drawCurve(int id,ALGORITHM algo, FoldLine *fl);
     void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = QColor(0x32, 0xCD, 0x32));

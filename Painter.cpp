@@ -415,18 +415,30 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 //正常状态下，右键单击，弹出菜单
                 selected_ID = realCanvas.getID(x, y);
                 if (selected_ID != -1 && realCanvas.getType(selected_ID) != CTRLPOINT) {
-                    //删除图元Action
-                    QAction* actionDelete = new QAction(tr(u8"删除"));
-                    connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
-                    //添加菜单项
-                    QMenu menu;
-                    menu.addAction(actionDelete);
-                    //在鼠标位置显示
-                    menu.exec(QCursor::pos());
+                    switch (realCanvas.getType(selected_ID)){
+                        case RECTANGLE:{
+                            QMenu menu;
+                            QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                            connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                            menu.addAction(actionDelete);
+
+                            QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                            connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
+                            menu.addAction(actionFill);
+                            menu.exec(QCursor::pos());
+                            break;
+                    }
+                    default:{
+                            QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                            connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                            QMenu menu;menu.addAction(actionDelete);
+                            menu.exec(QCursor::pos());
+                            break;
+                    }
                 }
             }
-             break;
         }
+    }
     case DRAW_POLYGON:{
         if (event->button() == Qt::LeftButton) {
             if (poly_state == POLY_NON_POINT) {
@@ -503,6 +515,12 @@ void Painter::on_toolButton_8_clicked(){setState(DRAW_RECTANGLE);}
 void Painter::action_to_delete()
 {
     realCanvas.delID(selected_ID);
+    update();
+}
+
+void Painter::action_to_fill()
+{
+    realCanvas.fill(selected_ID);
     update();
 }
 

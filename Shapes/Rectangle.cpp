@@ -72,4 +72,15 @@ void Rectangle::translate(int dx, int dy) {
     x2 += dx; y2 += dy;
 }
 
+void Rectangle::fill(QColor fcolor)
+{
+    if(x1>x2) swap(x1,x2);
+    if(y1>y2) swap(y1,y2);
+    color=fcolor;
+    for (int y = y1; y <= y2; y++)
+            for (int x = x1; x <= x2; x++)
+                add(x, y);
+    refresh();
+}
+
 

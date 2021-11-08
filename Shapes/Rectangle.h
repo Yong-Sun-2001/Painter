@@ -15,5 +15,6 @@ public:
     void translate(int dx,int dy);
     void scale(int x, int y, float s);
     void rotate(int x, int y, int r);
+    void fill(QColor fcolor);
 };
 #endif // RECTANGLE_H

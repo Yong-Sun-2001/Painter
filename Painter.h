@@ -127,6 +127,7 @@ private:
 private slots:
 
     void action_to_delete();
+    void action_to_fill();
 //=====================================================================
     void on_toolButton_clicked();
     void on_toolButton_2_clicked();
