@@ -427,14 +427,38 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                             menu.addAction(actionFill);
                             menu.exec(QCursor::pos());
                             break;
-                    }
-                    default:{
-                            QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
-                            connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
-                            QMenu menu;menu.addAction(actionDelete);
-                            menu.exec(QCursor::pos());
-                            break;
-                    }
+                        }
+                        case POLYGON:{
+                                QMenu menu;
+                                QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                                connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                                menu.addAction(actionDelete);
+
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
+                                menu.addAction(actionFill);
+                                menu.exec(QCursor::pos());
+                                break;
+                        }
+                        case CIRCLE:{
+                                QMenu menu;
+                                QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                                connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                                menu.addAction(actionDelete);
+
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
+                                menu.addAction(actionFill);
+                                menu.exec(QCursor::pos());
+                                break;
+                        }
+                        default:{
+                                QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                                connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                                QMenu menu;menu.addAction(actionDelete);
+                                menu.exec(QCursor::pos());
+                                break;
+                        }
                 }
             }
         }

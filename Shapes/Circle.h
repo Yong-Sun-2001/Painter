@@ -18,6 +18,7 @@ public:
     void setColor(QColor color);
     void paint(QImage *image);
     void refresh();
+    void fill(QColor fcolor);
 protected:
     vector<Point> vertexes;
     ALGORITHM algorithm;

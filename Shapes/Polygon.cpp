@@ -34,8 +34,14 @@ void Polygon::translate(int dx, int dy)
 void Polygon::refresh()
 {
     points.clear();
-    if (algorithm == DDA) {
+    if (fill_flag){
         drawPolygon_DDA(vertexs, *this);
+        //fillPolygon_DDA(vertexs, *this);
+    }
+    else{
+        if (algorithm == DDA) {
+            drawPolygon_DDA(vertexs, *this);
+        }
     }
 }
 
@@ -59,4 +65,7 @@ void Polygon::scale(int x, int y, float s)
 
 void Polygon::fill(QColor fcolor)
 {
+    fill_flag=true;
+    color=fcolor;
+    refresh();
 }

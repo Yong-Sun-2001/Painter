@@ -31,8 +31,16 @@ void Circle::setColor(QColor color)
 void Circle::refresh()
 {
     points.clear();
-    if (algorithm == MIDPOINT) {
-        midPointcircle(cx,cy,cr,*this);
+    if(fill_flag){
+        if (algorithm == MIDPOINT) {
+            midPointcircle(cx,cy,cr,*this);
+        }
+        //fillCircle();
+    }
+    else{
+        if (algorithm == MIDPOINT) {
+            midPointcircle(cx,cy,cr,*this);
+        }
     }
 }
 
@@ -40,4 +48,11 @@ void Circle::paint(QImage *image)
 {
     refresh();
     PixelSet::paint(image);
+}
+
+void Circle::fill(QColor fcolor)
+{
+    fill_flag=true;
+    color=fcolor;
+    refresh();
 }

@@ -273,7 +273,7 @@ void Canvas::fill(int id)
 {
     for (auto it = PixelSets.begin(); it != PixelSets.end();++it) {
         if ((*it)->id == id) {
-            (*it)->fill(color);
+            (*it)->fill(fill_color);
             return;
         }
     }

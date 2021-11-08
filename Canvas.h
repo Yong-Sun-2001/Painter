@@ -21,7 +21,7 @@ class Canvas{
 
 protected:
     QColor color=0xFF0000;   //画笔颜色
-
+    QColor fill_color=Qt::red;
 public:
     Canvas():color(0, 0, 0) {}
     Canvas(const Canvas& B);
