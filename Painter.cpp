@@ -126,6 +126,9 @@ void Painter::setState(Draw_State s)
         algorithm=DDA;
         triangle_state = TRI_A;
         break;
+    case MUL_CHOICE:
+        state_info = "状态：MUL_CHOICE";
+        algo_info = "算法：无 ";
     default:
         break;
     }
@@ -559,6 +562,35 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
         }
         break;
     }
+    case MUL_CHOICE:{
+        if(ctrlPress == true)
+        {
+            //vector<int> ids;//将选中的图形的id存入
+            int tempid;
+            if(event->button() == Qt::LeftButton)
+            {
+                if ((tempid=bufCanvas.getID(x, y)) != -1)
+                    selected_IDS.push_back(tempid);
+                else if((tempid=realCanvas.getID(x, y)) != -1)
+                    selected_IDS.push_back(tempid);
+            }
+            else if(event->button() == Qt::RightButton)
+            {
+                QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                QMenu menu;menu.addAction(actionDelete);
+                menu.exec(QCursor::pos());
+//                for(size_t i = 0;i<selected_IDS.size();i++)
+//                {
+//                    if(selected_IDS[i]!= -1 && realCanvas.getType(selected_IDS[i]) != CTRLPOINT)
+//                    {
+//                        selected_ID = selected_IDS[i];
+//                    }
+//                }
+            }
+
+        } break;
+    }
         default:
             break;
     }
@@ -576,6 +608,24 @@ void Painter::mouseDoubleClickEvent(QMouseEvent *event)
         clear_all();
     }
     refreshStateLabel();
+}
+
+void Painter::keyPressEvent(QKeyEvent *k_event)
+{
+    if(k_event->key()==Qt::Key_Control)
+    {
+        ctrlPress = true;
+        setState(MUL_CHOICE);
+    }
+}
+void Painter::keyReleaseEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Control)
+    {
+        ctrlPress = false;
+        setState(NOT_DRAWING);
+        selected_IDS.clear();
+    }
 }
 
 void Painter::paintEvent(QPaintEvent *event)
@@ -613,8 +663,17 @@ void Painter::on_toolButton_9_clicked(){setState(DRAW_TRIANGLE);}
 
 void Painter::action_to_delete()
 {
-    realCanvas.delID(selected_ID);
-    update();
+    if(state == MUL_CHOICE)
+    {
+        for(size_t i = 0; i<selected_IDS.size();i++)
+               realCanvas.delID(selected_IDS[i]);
+        update();
+    }
+
+    else{
+        realCanvas.delID(selected_ID);
+        update();
+    }
 }
 
 void Painter::action_to_fill()
