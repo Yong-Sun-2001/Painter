@@ -36,8 +36,40 @@ void Polygon::refresh()
 {
     points.clear();
     if (fill_flag){
-        drawPolygon_DDA(vertexs, *this);
-        //fillPolygon_DDA(vertexs, *this);
+        /*
+        size_t n=vertexs.size();
+        int maxx=0;
+        for(size_t i=0;i<n-1;i++){
+            if(vertexs[i].x>maxx){
+                maxx=vertexs[i].x;
+            }
+        }
+        for(size_t i=0;i<n-1;i++){
+            int Ymax=(vertexs[i].y>vertexs[(i+1)%n].y)? vertexs[i].y:vertexs[(i+1)%n].y;
+            int Ymin=(vertexs[i].y<=vertexs[(i+1)%n].y)? vertexs[i].y:vertexs[(i+1)%n].y;
+            for (int y = Ymin; y < Ymax; y++){
+                int x=(y - vertexs[i].y) * (vertexs[(i+1)%n].x-vertexs[i].x) / (vertexs[(i+1)%n].y -vertexs[i].y) +vertexs[i].x;
+                while (x <= maxx)
+                {
+                    bool in=false;
+                    for(auto j=vertexs.begin();j!=vertexs.end();){
+                        if(j->x==x&&j->y==y){
+                            j=vertexs.erase(j);
+                            in=true;
+                            break;
+                        }
+                        else{
+                            j++;
+                        }
+                    }
+                    if(!in){
+                        this->add(x,y);
+                    }
+                    x++;
+                }
+            }
+        }
+        */
     }
     else{
         if (algorithm == DDA) {
