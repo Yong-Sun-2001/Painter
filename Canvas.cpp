@@ -237,6 +237,7 @@ void Canvas::drawPolygon(int id, const vector<Point> &vertexs, ALGORITHM algorit
         PixelSets[keyIndex]->refresh();
         PixelSets[keyIndex]->setID(id);
         PixelSets[keyIndex]->setColor(color);
+        PixelSets[keyIndex]->setWidth(penWidth);
     }
     else {
         PixelSet *p;

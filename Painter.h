@@ -46,13 +46,15 @@ private:
 
     /*编辑状态*/
     enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_ROTATE,DRAW_ELLIPSE,
-                    DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE,DRAW_TRIANGLE};
+                    DRAW_SCALE,DRAW_POLYGON,DRAW_RECTANGLE,DRAW_TRIANGLE,MUL_CHOICE};
+
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
     QString state_info="状态：NOT_DRAWING ";
 
     /*选中*/
     int selected_ID;
+    vector<int> selected_IDS;
 
     /*旋转*/
     enum ROTATE_STATE { ROTATE_NON, ROTATE_READY, ROTATE_BEGIN };
@@ -141,6 +143,14 @@ private:
 //=====================================================================
 
 //=====================================================================
+// 键盘事件
+    bool ctrlPress = false;
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+
+//    enum CHOICE_STATE {MUL_CHOICE_OFF,MUL_CHOICE_ON};//多选状态
+//    CHOICE_STATE choice_state = MUL_CHOICE_OFF;
+
 // 槽函数
 
 private slots:
