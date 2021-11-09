@@ -12,6 +12,7 @@ SOURCES += \
     Algorithms/CommonFuncs.cpp \
     Algorithms/DDA.cpp \
     Algorithms/Midpoint.cpp \
+    Algorithms/ScanLine_Fill.cpp \
     Shapes/Circle.cpp \
     Shapes/CtrlPoint.cpp \
     Shapes/Curve.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     Algorithms/CommonFuncs.h \
     Algorithms/DDA.h \
     Algorithms/Midpoint.h \
+    Algorithms/ScanLine_Fill.h \
     Canvas.h \
     Painter.h \
     Shapes/Circle.h \

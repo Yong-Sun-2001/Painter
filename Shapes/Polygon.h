@@ -8,6 +8,7 @@ class Polygon :public PixelSet
     vector<Point> vertexs;
     ALGORITHM algorithm;
     bool polygon_closed = true;
+    ALGORITHM fill_algorithm;
 public:
     Polygon();
     Polygon(const Polygon& B);
