@@ -38,7 +38,7 @@ public:
     void fill(int id);
     void getImage(QImage *image);
     void drawCurve(int id,ALGORITHM algo, FoldLine *fl);
-    void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = QColor(0x32, 0xCD, 0x32));
+    void drawDotPoint(int id, int x, int y, int iwidth = 10, QColor icolor = Qt::black);
     void drawLine(int id, int x1, int y1, int x2, int y2, ALGORITHM algorithm);
     void drawRectangle(int id,int x1,int y1,int x2,int y2);
     void drawCircle(int id,ALGORITHM algo,Point &center,int x);

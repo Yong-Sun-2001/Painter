@@ -10,6 +10,7 @@ Triangle::Triangle()
 
 Triangle::Triangle(const Triangle& B):PixelSet(B)
 {
+    vertexs.clear();
     type = TRIANGLE;
     fill_flag=B.fill_flag;
     x1 = B.x1;
@@ -20,6 +21,7 @@ Triangle::Triangle(const Triangle& B):PixelSet(B)
     y3 = B.y3;
     fill_algorithm=B.fill_algorithm;
     algorithm = B.algorithm;
+    vertexs.assign(B.vertexs.begin(), B.vertexs.end());
 }
 
 Triangle::Triangle(int ix1,int iy1,int ix2,int iy2,int ix3,int iy3,ALGORITHM ialgorithm)
@@ -34,17 +36,17 @@ Triangle::Triangle(int ix1,int iy1,int ix2,int iy2,int ix3,int iy3,ALGORITHM ial
 void Triangle::refresh()
 {
     points.clear();
+    vertexs.clear();
     if (fill_flag){
         if (algorithm == DDA) {
             drawTriangel_DDA(x1,y1,x2,y2,x3,y3,*this);
         }
         if (fill_algorithm==SCANLINE){
-            vector<Point> vertexs;
+
             vertexs.push_back(Point(x1,y1));
             vertexs.push_back(Point(x2,y2));
             vertexs.push_back(Point(x3,y3));
             FillPolygonScanline(vertexs,*this);
-            vertexs.clear();
         }
     }
     else{

@@ -8,7 +8,7 @@ class DotPoint :public PixelSet {
 public:
     DotPoint();
     DotPoint(const DotPoint& B);
-    DotPoint(int ix, int iy, int iwidth = 5, QColor icolor = QColor(0xB2, 0xDF,0xEE));
+    DotPoint(int ix, int iy, int iwidth = 5, QColor icolor = Qt::black);
     void paint(QImage *image);
 };
 #endif // DOTPOINT_H

@@ -16,7 +16,7 @@ protected:
     friend class Canvas;
 public:
     FoldLine();
-    FoldLine(const vector<Point>& ivertexs, int iwidth = 2, QColor icolor = QColor(0xB2, 0xDF, 0xEE));
+    FoldLine(const vector<Point>& ivertexs, int iwidth = 2, QColor icolor = Qt::blue);
     void setVertexes(const vector<Point>& ivertexs);
     void paint(QImage *image);
     void translate(int dx,int dy);
