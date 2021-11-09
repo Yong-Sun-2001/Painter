@@ -44,6 +44,7 @@ void Triangle::refresh()
             vertexs.push_back(Point(x2,y2));
             vertexs.push_back(Point(x3,y3));
             FillPolygonScanline(vertexs,*this);
+            vertexs.clear();
         }
     }
     else{

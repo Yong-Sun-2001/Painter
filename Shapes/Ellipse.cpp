@@ -93,8 +93,8 @@ void Ellipse::refresh()
     points.clear();
     if(fill_flag){
         drawEllipse(x, y, rx, ry, *this);
-        rotate(r);
         ellipse_fill(x,y,rx,ry,*this);
+        rotate(r);
     }
     else{
         drawEllipse(x, y, rx, ry, *this);
