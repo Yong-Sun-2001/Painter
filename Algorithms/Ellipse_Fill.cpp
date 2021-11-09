@@ -2,13 +2,16 @@
 
 void ellipse_fill(int x,int y,int rx,int ry, PixelSet& myset)
 {
-    for(int i=x;i<=x+rx;++i){
-        for(int j=y;j<=y+ry;++j){
-            if(((i-x)*(i-x)/rx/rx+(j-y)*(j-y)/ry) <= (rx*rx+ry*ry)){
-                myset.add(i,j);
-                myset.add(2*rx-i,j);
-                myset.add(i,2*ry-j);
-                myset.add(2*rx-i,2*ry-j);
+    for(int i = y;i<y+ry;++i)
+    {
+        for(int j = x;;++j)
+        {
+            if(((j-x)*(j-x))*(ry*ry)+((i-y)*(i-y))*(rx*rx)< (ry*ry)*(rx*rx))
+            {
+                myset.add(j,i);
+                myset.add(j,2*y-i);
+                myset.add(2*x-j,i);
+                myset.add(2*x-j,2*y-i);
             }
             else
                 break;
