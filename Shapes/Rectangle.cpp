@@ -83,8 +83,8 @@ void Rectangle::translate(int dx, int dy) {
 void Rectangle::fill(QColor fcolor)
 {
     fill_flag=true;
+    fill_algorithm=SCANLINE;
     color=fcolor;
     refresh();
 }
-
 

@@ -1,5 +1,6 @@
 #include <Shapes/Circle.h>
 #include <Algorithms/CommonFuncs.h>
+#include <Algorithms/Circle_Fill.h>
 Circle::Circle()
 {
     type = CIRCLE;
@@ -29,18 +30,10 @@ void Circle::refresh()
 {
     points.clear();
     if(fill_flag){
-        for(int i=cx;i<=cx+cr;++i){
-            for(int j=cy;j<=cy+cr;++j){
-                if((cx-i)*(cx-i)+(cy-j)*(cy-j)<=cr*cr){
-                    this->add(i,j);
-                    this->add(2*cx-i,j);
-                    this->add(i,2*cy-j);
-                    this->add(2*cx-i,2*cy-j);
-                }
-                else
-                    break;
-            }
+        if (algorithm == MIDPOINT) {
+            midPointcircle(cx,cy,cr,*this);
         }
+        circle_fill(cx,cy,cr,*this);
     }
     else{
         if (algorithm == MIDPOINT) {

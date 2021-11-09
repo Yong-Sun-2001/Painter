@@ -8,6 +8,7 @@ class Triangle : public PixelSet
 protected:
     int x1,y1,x2,y2,x3,y3;
     ALGORITHM algorithm;
+    ALGORITHM fill_algorithm;
 public:
     Triangle();
     Triangle(const Triangle& B);
@@ -17,6 +18,7 @@ public:
     void translate(int dx,int dy);
     void rotate(int x, int y, int r);
     void scale(int x, int y, float s);
+    void fill(QColor fcolor);
 };
 
 #endif // TRIANGLE_H

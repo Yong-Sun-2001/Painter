@@ -1,5 +1,6 @@
 #include<Shapes/Ellipse.h>
 #include<Algorithms/CommonFuncs.h>
+#include <Algorithms/Ellipse_Fill.h>
 //画椭圆-中点椭圆生成算法
 void drawEllipse(int x,int y,int rx,int ry, PixelSet& myset)
 {
@@ -90,8 +91,15 @@ void Ellipse::translate(int dx, int dy)
 void Ellipse::refresh()
 {
     points.clear();
-    drawEllipse(x, y, rx, ry, *this);
-    rotate(r);
+    if(fill_flag){
+        drawEllipse(x, y, rx, ry, *this);
+        rotate(r);
+        ellipse_fill(x,y,rx,ry,*this);
+    }
+    else{
+        drawEllipse(x, y, rx, ry, *this);
+        rotate(r);
+    }
 }
 
 void Ellipse::rotate(int ix, int iy, int ir)
@@ -114,5 +122,12 @@ void Ellipse::scale(int ix, int iy, float s)
     scalePoint(x, y, ix, iy, s);
     rx = qRound(rx*s);
     ry = qRound(ry*s);
+    refresh();
+}
+
+void Ellipse::fill(QColor fcolor)
+{
+    fill_flag=true;
+    color=fcolor;
     refresh();
 }

@@ -6,6 +6,7 @@ class Ellipse :public PixelSet
     int x, y;
     int rx, ry;
     int r = 0;
+    //ALGORITHM fill_algorithm;
 public:
     Ellipse();
     Ellipse(const Ellipse& B);
@@ -16,6 +17,7 @@ public:
     void rotate(int ix, int iy, int ir); //绕点(ix,iy旋转)顺时针
     void rotate(int ir); //绕自身中心旋转
     void scale(int x, int y, float s);
+    void fill(QColor fcolor);
 };
 
 #endif // ELLIPSE_H

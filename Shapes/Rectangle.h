@@ -6,6 +6,7 @@ class Rectangle :public PixelSet {
     int x1, y1;
     int x2, y2;
     int width;
+    ALGORITHM fill_algorithm;
 public:
     Rectangle();
     Rectangle(const Rectangle& B);

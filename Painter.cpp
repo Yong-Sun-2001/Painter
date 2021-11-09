@@ -524,7 +524,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                             connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
                             menu.addAction(actionDelete);
 
-                            QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                            QAction* actionFill = new QAction(tr(u8"填充"));  //填充图元Action
                             connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
                             menu.addAction(actionFill);
                             menu.exec(QCursor::pos());
@@ -536,7 +536,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                                 connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
                                 menu.addAction(actionDelete);
 
-                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //填充图元Action
                                 connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
                                 menu.addAction(actionFill);
                                 menu.exec(QCursor::pos());
@@ -548,24 +548,36 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                                 connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
                                 menu.addAction(actionDelete);
 
-                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //填充图元Action
                                 connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
                                 menu.addAction(actionFill);
                                 menu.exec(QCursor::pos());
                                 break;
                         }
-                    case TRIANGLE:{
+                        case TRIANGLE:{
+                                    QMenu menu;
+                                    QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
+                                    connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
+                                    menu.addAction(actionDelete);
+
+                                    QAction* actionFill = new QAction(tr(u8"填充"));  //填充图元Action
+                                    connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
+                                    menu.addAction(actionFill);
+                                    menu.exec(QCursor::pos());
+                                    break;
+                        }
+                        case ELLIPSE:{
                                 QMenu menu;
                                 QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
                                 connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
                                 menu.addAction(actionDelete);
 
-                                QAction* actionFill = new QAction(tr(u8"填充"));  //删除填充图元Action
+                                QAction* actionFill = new QAction(tr(u8"填充"));  //填充图元Action
                                 connect(actionFill, &QAction::triggered, this, &Painter::action_to_fill);
                                 menu.addAction(actionFill);
                                 menu.exec(QCursor::pos());
                                 break;
-                    }
+                        }
                         default:{
                                 QAction* actionDelete = new QAction(tr(u8"删除"));  //删除图元Action
                                 connect(actionDelete, &QAction::triggered, this, &Painter::action_to_delete);
